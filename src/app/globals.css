@@ -3,26 +3,26 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
-  /* Light, airy blue world from the CARE+ prototype screens. */
+  /* PeelPlan's world in CARE+ blue: white ground, ink type, one accent. */
   --bg: #ffffff;
-  --page: #f2f7ff;
-  --surface: #f5f9ff;
-  --surface-2: #e8f0fc;
-  --text: #0f2a4a;
-  --muted: #5a6b85;
-  --hairline: #dfe9f7;
-  --accent: #2b7cf3;
+  --page: #ffffff;
+  --surface: #f6f6f8;
+  --surface-2: #eeeef1;
+  --text: #0b0b0f;
+  --muted: #6b6d76;
+  --hairline: #e8e8ec;
+  --accent: #1a62f0;
   --accent-ink: #ffffff;
-  --accent-soft: #e8f1ff;
-  --accent-text: #1b64d6;
-  --good: #16a34a;
-  --good-soft: #eafaf0;
-  --watch: #d97706;
-  --watch-soft: #fff5e6;
-  --high: #e11d48;
-  --high-soft: #fff0f3;
-  --focus: #2b7cf3;
-  --shadow-soft: 0 1px 2px rgb(30 80 160 / 0.05), 0 10px 28px rgb(30 80 160 / 0.08);
+  --accent-soft: #eaf1ff;
+  --accent-text: #1553d1;
+  --good: #15803d;
+  --good-soft: #eaf8ef;
+  --watch: #b45309;
+  --watch-soft: #fdf3e3;
+  --high: #d0263f;
+  --high-soft: #fdecef;
+  --focus: #1a62f0;
+  --shadow-soft: 0 1px 2px rgb(11 11 15 / 0.04), 0 8px 24px rgb(11 11 15 / 0.06);
   color-scheme: light;
 }
 
@@ -54,9 +54,14 @@
 html {
   background: var(--page);
 }
+/* Decorative layers (grid paper, floating bubbles) may extend past the edge; never let them scroll the page sideways. */
+html,
+body {
+  overflow-x: clip;
+}
 
 body {
-  background: linear-gradient(180deg, #eaf3ff 0%, var(--page) 320px, var(--page) 100%);
+  background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -71,8 +76,16 @@ body {
     background: var(--accent-soft);
     color: var(--text);
   }
-  input[type="range"] {
+  input[type="range"],
+  input[type="checkbox"] {
     accent-color: var(--accent);
+  }
+  html {
+    scrollbar-color: #c9c9d0 transparent;
+    caret-color: var(--accent);
+  }
+  a {
+    text-underline-offset: 0.2em;
   }
 }
 
@@ -297,6 +310,91 @@ html.js .reveal.is-visible {
 @media (prefers-reduced-motion: reduce) {
   .grow-x,
   .ring-in {
+    animation: none;
+  }
+}
+
+/* Graph paper behind instruments, fading out at the edges. */
+.grid-paper {
+  background-image: linear-gradient(to right, rgb(11 11 15 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(11 11 15 / 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse at center, #000 45%, transparent 78%);
+}
+
+/* The primary action: blue pill inside an ink ring, like a sticker with its outline. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 4px var(--text),
+    0 10px 24px rgb(26 98 240 / 0.28);
+  transition:
+    transform 260ms var(--ease-out-soft),
+    box-shadow 260ms var(--ease-out-soft);
+}
+.pill:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 4px var(--text),
+    0 16px 32px rgb(26 98 240 / 0.34);
+}
+.pill:active {
+  transform: translateY(0) scale(0.98);
+}
+.pill:disabled {
+  opacity: 0.45;
+  transform: none;
+}
+
+/* Hand-drawn underline under the key phrase. */
+.scribble {
+  position: relative;
+  white-space: nowrap;
+}
+.scribble svg {
+  position: absolute;
+  left: -2%;
+  bottom: -0.18em;
+  width: 104%;
+  height: 0.32em;
+  overflow: visible;
+}
+.scribble path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: scribble 900ms var(--ease-out-soft) 450ms forwards;
+}
+@keyframes scribble {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scribble path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Chart end dots appear once the line has drawn up to them. */
+@keyframes dot-in {
+  from {
+    opacity: 0;
+  }
+}
+.dot-in {
+  animation: dot-in 300ms ease-out 1250ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot-in {
     animation: none;
   }
 }

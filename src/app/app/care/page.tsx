@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Building2, Clock, FileText, HeartPulse, LocateFixed, MapPin, Navigation, Phone, ShieldCheck, Siren, Stethoscope } from "lucide-react";
-import { btn, Card, PageHead } from "@/components/ui";
+import { btn, Card, chip, PageHead } from "@/components/ui";
 import { analyze } from "@/lib/health";
 import {
   DEFAULT_CENTER,
@@ -18,9 +18,6 @@ import {
   type Right,
 } from "@/lib/clinics";
 import { useCare, useHydrated } from "@/lib/store";
-
-const chip = (on: boolean) =>
-  `rounded-full border px-4 py-2 text-sm shadow-soft transition ${on ? "border-transparent bg-gradient-to-r from-sky-500 to-blue-600 font-medium text-white" : "border-hairline bg-white hover:border-blue-300"}`;
 
 export default function Care() {
   const ready = useHydrated();
@@ -64,10 +61,9 @@ export default function Care() {
           <>
             สุขภาพดี เริ่มได้จาก
             <br />
-            การตรวจเช็กนะครับ 💙
+            การตรวจเช็กนะครับ
           </>
         }
-        eyebrow="ถ้าควรพบแพทย์"
         title="ค้นหาสถานพยาบาล"
         sub="CARE+ ไม่วินิจฉัยโรคเอง แต่ช่วยให้คุณเข้าถึงบริการสุขภาพที่เหมาะสมได้ง่ายขึ้น"
       />
@@ -81,12 +77,12 @@ export default function Care() {
         </a>
 
         {a?.seeDoctor && (
-          <Card className="flex items-start gap-4 border-blue-200/70 bg-gradient-to-r from-sky-50 to-blue-50">
-            <span className="grid size-14 shrink-0 place-items-center rounded-full bg-gradient-to-br from-sky-400 to-blue-600 text-white">
-              <Stethoscope className="size-7" />
+          <Card className="flex items-start gap-4 bg-surface">
+            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-rose-100">
+              <Stethoscope className="size-6" strokeWidth={1.8} />
             </span>
             <div>
-              <p className="font-bold text-[#123a73]">จากผลการประเมินสุขภาพของคุณ ควรพิจารณาตรวจเพิ่มเติม</p>
+              <p className="font-bold">จากผลการประเมินสุขภาพของคุณ ควรพิจารณาตรวจเพิ่มเติม</p>
               <ul className="mt-1 text-sm text-muted">
                 {a.seeDoctorReasons.map((r) => (
                   <li key={r}>• {r}</li>
@@ -142,16 +138,16 @@ export default function Care() {
             {list.map((f) => {
               const open = isOpen(f);
               return (
-                <li key={f.id} className="reveal lift flex flex-col rounded-card border border-hairline bg-white p-5 shadow-soft">
+                <li key={f.id} className="reveal lift flex flex-col rounded-card border border-hairline bg-white p-5">
                   <div className="flex items-start gap-3">
                     <span
-                      className={`grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br text-white ${f.type === "private" ? "from-violet-400 to-purple-600" : f.type === "clinic" ? "from-emerald-400 to-teal-600" : f.type === "community" ? "from-amber-400 to-orange-500" : "from-sky-400 to-blue-600"}`}
+                      className={`grid size-14 shrink-0 place-items-center rounded-2xl text-ink ${f.type === "private" ? "bg-violet-100" : f.type === "clinic" ? "bg-emerald-100" : f.type === "community" ? "bg-amber-100" : "bg-sky-100"}`}
                     >
-                      {f.type === "clinic" ? <HeartPulse className="size-7" /> : <Building2 className="size-7" />}
+                      {f.type === "clinic" ? <HeartPulse className="size-6" strokeWidth={1.8} /> : <Building2 className="size-6" strokeWidth={1.8} />}
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="text-xs text-muted">{TYPE_LABEL[f.type]}</p>
-                      <h3 className="font-bold text-[#123a73]">{f.name}</h3>
+                      <h3 className="font-bold">{f.name}</h3>
                     </div>
                     <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${open ? "bg-good-soft text-good" : "bg-surface-2 text-muted"}`}>
                       {open ? "เปิดอยู่" : "ปิดแล้ว"}
@@ -171,17 +167,17 @@ export default function Care() {
                   </div>
                   <ul className="mt-3 flex flex-wrap gap-1.5">
                     {f.services.map((s) => (
-                      <li key={s} className="rounded-md bg-blue-50 px-2 py-0.5 text-xs text-blue-800">
+                      <li key={s} className="rounded-md bg-surface px-2 py-0.5 text-xs">
                         {s}
                       </li>
                     ))}
                   </ul>
                   <ul className="mt-2 flex flex-wrap items-center gap-1.5">
-                    <ShieldCheck className="size-4 text-emerald-600" aria-label="สิทธิการรักษา" />
+                    <ShieldCheck className="size-4 text-muted" aria-label="สิทธิการรักษา" />
                     {f.rights.map((r) => (
                       <li
                         key={r}
-                        className={`rounded-md px-2 py-0.5 text-xs ${rights.includes(r) ? "bg-emerald-100 font-medium text-emerald-700" : "bg-emerald-50 text-emerald-700"}`}
+                        className={`rounded-md px-2 py-0.5 text-xs ${rights.includes(r) ? "bg-accent-soft font-medium text-accent-text" : "border border-hairline text-muted"}`}
                       >
                         {RIGHT_SHORT[r]}
                       </li>
@@ -216,14 +212,14 @@ export default function Care() {
 
         <Card>
           <div className="flex items-center gap-2">
-            <span className="grid size-10 place-items-center rounded-full bg-gradient-to-br from-sky-400 to-blue-600 text-white">
-              <FileText className="size-5" />
+            <span className="grid size-10 place-items-center rounded-xl bg-sky-100">
+              <FileText className="size-5" strokeWidth={1.8} />
             </span>
             <h2 className="font-semibold">เตรียมตัวก่อนไปตามสิทธิ</h2>
           </div>
           <div className="mt-4 grid gap-4 md:grid-cols-3">
             {(rights.length ? rights : (Object.keys(RIGHT_DOCS) as Right[])).map((r) => (
-              <div key={r} className="rounded-2xl border border-blue-100 bg-gradient-to-br from-sky-50 to-blue-50 p-4 text-sm">
+              <div key={r} className="rounded-2xl bg-surface p-5 text-sm">
                 <p className="font-medium">{RIGHT_SHORT[r]}</p>
                 <ul className="mt-2 space-y-1 text-muted">
                   {RIGHT_DOCS[r].docs.map((d) => (

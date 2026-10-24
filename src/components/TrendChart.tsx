@@ -1,7 +1,7 @@
-import { useId } from "react";
+import { useId, type CSSProperties } from "react";
 import type { ScenarioPoint } from "@/lib/simulate";
 
-/** Two-line chart of overall risk over time: keep habits (rose) vs change habits (green). */
+/** Two-line chart of overall risk over time: keep habits (ink) vs change habits (CARE+ blue). */
 /** `progress` (0-1) reveals the lines up to that point in time, for scroll-driven scenes; omit it to draw once on mount. */
 export function TrendChart({
   current,
@@ -39,6 +39,11 @@ export function TrendChart({
   const area = (pts: ScenarioPoint[]) => `${path(pts)} L${x(t)},${y(0)} L${x(0)},${y(0)} Z`;
   const tip = (pts: ScenarioPoint[]) => upTo(pts).at(-1)!;
   const animate = progress === undefined;
+  // Morph between datasets where the browser supports animating `d` (Chromium); elsewhere it just updates.
+  const morph = (d: string) => (animate ? ({ d: `path("${d}")`, transition: "d 650ms cubic-bezier(0.22, 1, 0.36, 1)" } as CSSProperties) : undefined);
+  /** End dot rides on a transform with the same timing as the line morph, so it never leaves the line's tip. */
+  const dot = ([px, py]: readonly [number, number]) =>
+    ({ transform: `translate(${px}px, ${py}px)`, transition: animate ? "transform 650ms cubic-bezier(0.22, 1, 0.36, 1)" : undefined }) as CSSProperties;
   const step = n > 6 ? 2 : 1;
   const id = useId();
 
@@ -52,12 +57,12 @@ export function TrendChart({
       >
         <defs>
           <linearGradient id={`${id}c`} x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="var(--high)" stopOpacity="0.14" />
-            <stop offset="1" stopColor="var(--high)" stopOpacity="0" />
+            <stop offset="0" stopColor="var(--text)" stopOpacity="0.08" />
+            <stop offset="1" stopColor="var(--text)" stopOpacity="0" />
           </linearGradient>
           <linearGradient id={`${id}i`} x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#10b981" stopOpacity="0.14" />
-            <stop offset="1" stopColor="#10b981" stopOpacity="0" />
+            <stop offset="0" stopColor="var(--accent)" stopOpacity="0.08" />
+            <stop offset="1" stopColor="var(--accent)" stopOpacity="0" />
           </linearGradient>
         </defs>
         {[0, 25, 50, 75, 100].map((v) => (
@@ -75,12 +80,13 @@ export function TrendChart({
             </text>
           ) : null,
         )}
-        <path d={area(current)} fill={`url(#${id}c)`} />
-        <path d={area(improved)} fill={`url(#${id}i)`} />
+        <path d={area(current)} style={morph(area(current))} fill={`url(#${id}c)`} />
+        <path d={area(improved)} style={morph(area(improved))} fill={`url(#${id}i)`} />
         <path
           d={path(current)}
+          style={morph(path(current))}
           fill="none"
-          stroke="var(--high)"
+          stroke="var(--text)"
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -89,23 +95,24 @@ export function TrendChart({
         />
         <path
           d={path(improved)}
+          style={morph(path(improved))}
           fill="none"
-          stroke="#10b981"
+          stroke="var(--accent)"
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
           pathLength={animate ? 1000 : undefined}
           className={animate ? "draw" : undefined}
         />
-        <circle cx={tip(current)[0]} cy={tip(current)[1]} r="4" fill="var(--bg)" stroke="var(--high)" strokeWidth="2.5" />
-        <circle cx={tip(improved)[0]} cy={tip(improved)[1]} r="4" fill="var(--bg)" stroke="#10b981" strokeWidth="2.5" />
+        <circle r="5" style={dot(tip(current))} className={animate ? "dot-in" : undefined} fill="var(--text)" stroke="var(--bg)" strokeWidth="2" />
+        <circle r="5" style={dot(tip(improved))} className={animate ? "dot-in" : undefined} fill="var(--accent)" stroke="var(--bg)" strokeWidth="2" />
       </svg>
       <figcaption className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
         <span className="inline-flex items-center gap-1.5">
-          <span className="h-0.5 w-4 rounded bg-high" /> ถ้ายังใช้ชีวิตแบบเดิม
+          <span className="h-0.5 w-5 rounded bg-ink" /> ถ้ายังใช้ชีวิตแบบเดิม
         </span>
         <span className="inline-flex items-center gap-1.5">
-          <span className="h-0.5 w-4 rounded bg-emerald-500" /> ถ้าเริ่มปรับพฤติกรรม
+          <span className="h-0.5 w-5 rounded bg-accent" /> ถ้าเริ่มปรับพฤติกรรม
         </span>
       </figcaption>
     </figure>

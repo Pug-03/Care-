@@ -4,7 +4,7 @@
 
 ## Platform
 
-Web, mobile-first (the deck shows a phone app; the web app uses a bottom tab bar on phones and a sidebar on desktop).
+web
 
 ## Users
 
@@ -30,7 +30,7 @@ Other health apps record data and show history. CARE+ analyses behaviour against
 
 ## Brand
 
-Name CARE+. Bright, friendly, light UI matching the prototype screens: airy blue background, white cards, one colour per feature (chat blue, analysis purple, simulation green, plan orange, see-a-doctor pink), and the CARE+ robot mascot from the app icon. Thai-first copy. Anuphan for Thai and Latin, Instrument Serif italic as an occasional accent. Light theme only (the prototype has no dark mode), WCAG AA, reduced motion respected.
+Name CARE+. The user's binding direction: look and feel like their PeelPlan project. White ground, near-black ink, grey second voice, hairline borders, one accent (CARE+ blue from the app icon) for the primary pill, the hand-drawn underline and the "if you change" line. Colour per feature only in small pastel icon squares. The CARE+ robot from the app icon is prominent across the app (guide, chat avatar, floating chat button). No emoji, no gradients, no glass. Anuphan for Thai and Latin. Light theme only. WCAG AA, reduced motion respected.
 
 ## Evidence on hand
 

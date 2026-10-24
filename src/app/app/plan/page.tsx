@@ -22,12 +22,12 @@ const GOAL_LABEL: Partial<Record<keyof Behavior, (v: number | string) => string>
 };
 
 const AREA_STYLE: Record<Action["area"], [LucideIcon, string]> = {
-  sleep: [Moon, "from-indigo-400 to-violet-600"],
-  move: [Footprints, "from-amber-400 to-orange-500"],
-  food: [Salad, "from-emerald-400 to-teal-600"],
-  mind: [Brain, "from-sky-400 to-blue-600"],
-  habit: [Cigarette, "from-rose-400 to-pink-600"],
-  check: [ClipboardCheck, "from-cyan-400 to-sky-600"],
+  sleep: [Moon, "bg-indigo-100"],
+  move: [Footprints, "bg-amber-100"],
+  food: [Salad, "bg-emerald-100"],
+  mind: [Brain, "bg-sky-100"],
+  habit: [Cigarette, "bg-rose-100"],
+  check: [ClipboardCheck, "bg-cyan-100"],
 };
 
 function lastDays(n: number) {
@@ -73,10 +73,7 @@ function Plan({ p }: { p: Profile }) {
           </p>
           <p className="text-sm text-muted">เป้าหมายที่ทำแล้ว</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-surface-2">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-[width] duration-500"
-              style={{ width: `${(count / plan.length) * 100}%` }}
-            />
+            <div className="grow-x h-full rounded-full bg-ink transition-[width] duration-500" style={{ width: `${(count / plan.length) * 100}%` }} />
           </div>
         </Card>
         <Card>
@@ -88,10 +85,7 @@ function Plan({ p }: { p: Profile }) {
                   className="relative h-16 w-full max-w-8 overflow-hidden rounded-lg bg-surface-2"
                   aria-label={`${d.toLocaleDateString("th-TH", { weekday: "long" })} ${Math.round(ratio * 100)}%`}
                 >
-                  <span
-                    className="absolute inset-x-0 bottom-0 rounded-lg bg-gradient-to-t from-orange-500 to-amber-300 transition-[height]"
-                    style={{ height: `${ratio * 100}%` }}
-                  />
+                  <span className="absolute inset-x-0 bottom-0 rounded-lg bg-accent transition-[height]" style={{ height: `${ratio * 100}%` }} />
                 </span>
                 <span className="text-[11px] text-muted">{d.toLocaleDateString("th-TH", { weekday: "narrow" })}</span>
               </li>
@@ -101,7 +95,7 @@ function Plan({ p }: { p: Profile }) {
       </div>
 
       {goals.length > 0 && (
-        <Card className="border-emerald-200/70 bg-gradient-to-br from-emerald-50 to-teal-50">
+        <Card className="bg-accent-soft/40">
           <h2 className="font-semibold">เป้าหมายจากการจำลองอนาคต</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
             {goals.map((g) => (
@@ -125,12 +119,12 @@ function Plan({ p }: { p: Profile }) {
                     type="button"
                     aria-pressed={on}
                     onClick={() => toggle(today, x.id)}
-                    className={`flex w-full items-center gap-4 rounded-card border p-4 text-left shadow-soft transition ${on ? "border-emerald-200 bg-emerald-50/70" : "border-hairline bg-white lift"}`}
+                    className={`flex w-full items-center gap-4 rounded-card border p-4 text-left transition ${on ? "border-ink/20 bg-surface" : "border-hairline bg-white lift"}`}
                   >
                     {(() => {
                       const [Icon, grad] = AREA_STYLE[x.area];
                       return (
-                        <span className={`grid size-12 shrink-0 place-items-center rounded-full bg-gradient-to-br text-white ${grad}`}>
+                        <span className={`grid size-12 shrink-0 place-items-center rounded-xl text-ink ${grad}`}>
                           <Icon className="size-6" />
                         </span>
                       );
@@ -143,7 +137,7 @@ function Plan({ p }: { p: Profile }) {
                     <span className="flex shrink-0 flex-col items-end gap-2">
                       <Badge level={x.priority}>{x.priority === "good" ? "รักษาไว้" : LEVEL_LABEL[x.priority]}</Badge>
                       <span
-                        className={`grid size-7 place-items-center rounded-full border-2 transition ${on ? "border-emerald-500 bg-emerald-500 text-white" : "border-hairline bg-white"}`}
+                        className={`grid size-7 place-items-center rounded-full border-2 transition ${on ? "border-accent bg-accent text-white" : "border-hairline bg-white"}`}
                       >
                         {on && <Check className="size-4" strokeWidth={3} />}
                       </span>
@@ -157,7 +151,7 @@ function Plan({ p }: { p: Profile }) {
       ))}
 
       <Card className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <span className="grid size-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-sky-400 to-blue-600 text-white">
+        <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-sky-100">
           <RefreshCw className="size-6" />
         </span>
         <div className="flex-1">
@@ -181,10 +175,9 @@ export default function PlanPage() {
           <>
             เปลี่ยนวันนี้ เพื่ออนาคตที่ดีขึ้น
             <br />
-            ไปด้วยกันนะ 💙
+            ไปด้วยกันนะ
           </>
         }
-        eyebrow="Action Recommendation"
         title="แนะนำสิ่งที่ทำได้จริง"
         sub="เป้าหมายเล็ก ๆ ที่เลือกมาจากผลวิเคราะห์ของคุณ ติ๊กเมื่อทำเสร็จในแต่ละวัน"
       />

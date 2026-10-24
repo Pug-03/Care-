@@ -3,19 +3,19 @@
 import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { Moon, RotateCcw, SendHorizontal, Siren, Utensils, Brain, Dumbbell } from "lucide-react";
 import { Robot } from "@/components/Logo";
-import { FEATURE } from "@/components/theme";
+import { Tile } from "@/components/theme";
 import { redFlag } from "@/lib/chat";
 import { useCare, useHydrated, type ChatMessage } from "@/lib/store";
 
 const SUGGESTIONS = [
-  { text: "ช่วงนี้นอนไม่ค่อยหลับ ตื่นมาไม่สดชื่น", icon: Moon, tone: "text-indigo-500" },
-  { text: "กินชานมทุกวัน จะเสี่ยงเบาหวานไหม", icon: Utensils, tone: "text-emerald-500" },
-  { text: "ทำงานเครียด ปวดหัวบ่อย", icon: Brain, tone: "text-amber-500" },
-  { text: "อยากเริ่มออกกำลังกาย แต่ไม่มีเวลา", icon: Dumbbell, tone: "text-orange-500" },
+  { text: "ช่วงนี้นอนไม่ค่อยหลับ ตื่นมาไม่สดชื่น", icon: Moon, tone: "text-accent" },
+  { text: "กินชานมทุกวัน จะเสี่ยงเบาหวานไหม", icon: Utensils, tone: "text-accent" },
+  { text: "ทำงานเครียด ปวดหัวบ่อย", icon: Brain, tone: "text-accent" },
+  { text: "อยากเริ่มออกกำลังกาย แต่ไม่มีเวลา", icon: Dumbbell, tone: "text-accent" },
 ];
 
 const WELCOME =
-  "สวัสดีครับ 👋 ผม CARE+ ผู้ช่วยด้านสุขภาพของคุณ ยินดีที่ได้คุยด้วยครับ\n\nเล่าอาการ พฤติกรรมการกิน การนอน หรือความเครียดให้ฟังได้เลย ผมจะถามเพิ่มนิดหน่อย แล้วช่วยดูว่ามีปัจจัยเสี่ยงอะไรที่ควรใส่ใจครับ";
+  "สวัสดีครับ ผม CARE+ ผู้ช่วยด้านสุขภาพของคุณ ยินดีที่ได้คุยด้วยครับ\n\nเล่าอาการ พฤติกรรมการกิน การนอน หรือความเครียดให้ฟังได้เลย ผมจะถามเพิ่มนิดหน่อย แล้วช่วยดูว่ามีปัจจัยเสี่ยงอะไรที่ควรใส่ใจครับ";
 
 /** Tiny renderer for the subset of markdown the assistant is told to use: **bold** and "- " lists. */
 function Rich({ text }: { text: string }) {
@@ -57,15 +57,13 @@ function Bubble({ m }: { m: Pick<ChatMessage, "role" | "content"> }) {
   if (m.role === "user")
     return (
       <div className="flex justify-end">
-        <div className="max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-br-lg bg-gradient-to-br from-sky-400 to-blue-500 px-4 py-2.5 text-white shadow-soft">
-          {m.content}
-        </div>
+        <div className="max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-br-lg bg-ink px-4 py-2.5 text-white">{m.content}</div>
       </div>
     );
   return (
     <div className="flex items-start gap-2.5">
       <Robot className="mt-0.5 size-10 shrink-0 ring-2 ring-white" />
-      <div className="max-w-[85%] rounded-3xl rounded-tl-lg border border-hairline bg-white px-4 py-3 leading-relaxed shadow-soft">
+      <div className="max-w-[85%] rounded-3xl rounded-tl-lg border border-hairline bg-white px-4 py-3 leading-relaxed">
         <Rich text={m.content} />
       </div>
     </div>
@@ -127,11 +125,9 @@ export default function Chat() {
     <div className="mx-auto flex max-w-2xl flex-col" style={{ minHeight: "calc(100dvh - 12rem)" }}>
       <header className="mb-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <span className={`grid size-12 shrink-0 place-items-center rounded-full text-white shadow-soft ${FEATURE.chat.solid}`}>
-            <FEATURE.chat.icon className="size-6" />
-          </span>
+          <Tile feature="chat" size="lg" />
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-[#123a73]">คุยกับ AI</h1>
+            <h1 className="text-3xl font-bold tracking-tight">คุยกับ AI</h1>
             <p className="text-sm text-muted">
               {mode === "offline"
                 ? "โหมดสาธิตออฟไลน์ (ยังไม่ได้ตั้งค่า ANTHROPIC_API_KEY)"
@@ -170,7 +166,7 @@ export default function Chat() {
         {waiting && (
           <div className="flex items-center gap-2.5" aria-label="AI กำลังพิมพ์">
             <Robot className="size-10 ring-2 ring-white" />
-            <span className="flex gap-1 rounded-3xl border border-hairline bg-white px-4 py-3.5 shadow-soft">
+            <span className="flex gap-1 rounded-3xl border border-hairline bg-white px-4 py-3.5">
               {[0, 1, 2].map((i) => (
                 <span key={i} className="typing-dot size-1.5 rounded-full bg-muted" style={{ animationDelay: `${i * 0.15}s` }} />
               ))}
@@ -187,7 +183,7 @@ export default function Chat() {
               key={text}
               type="button"
               onClick={() => send(text)}
-              className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 text-left text-sm shadow-soft transition hover:border-blue-300"
+              className="inline-flex items-center gap-2 rounded-full border border-hairline bg-white px-4 py-2 text-left text-sm transition hover:border-ink/40"
             >
               <Icon className={`size-4 shrink-0 ${tone}`} /> {text}
             </button>
@@ -196,13 +192,13 @@ export default function Chat() {
       )}
 
       <form
-        className="sticky bottom-16 mt-6 bg-gradient-to-t from-page via-page to-transparent pb-3 pt-4 lg:bottom-0"
+        className="sticky bottom-16 mt-6 bg-bg pb-3 pt-3 lg:bottom-0"
         onSubmit={(e) => {
           e.preventDefault();
           send(input);
         }}
       >
-        <div className="flex items-end gap-2 rounded-full border border-blue-100 bg-white p-2 pl-3 shadow-soft focus-within:border-blue-400">
+        <div className="flex items-end gap-2 rounded-full border border-hairline bg-white p-2 pl-3 shadow-soft transition focus-within:border-ink">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -218,12 +214,7 @@ export default function Chat() {
             aria-label="ข้อความ"
             className="max-h-40 min-h-10 flex-1 resize-none bg-transparent px-3 py-2 outline-none [field-sizing:content]"
           />
-          <button
-            type="submit"
-            disabled={!input.trim() || busy}
-            className="grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-sky-400 to-blue-600 text-white transition disabled:opacity-40"
-            aria-label="ส่ง"
-          >
+          <button type="submit" disabled={!input.trim() || busy} className="pill size-11 shrink-0 p-0" aria-label="ส่ง">
             <SendHorizontal className="size-5" />
           </button>
         </div>

@@ -1,43 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ChevronRight, HeartPulse, Lightbulb, Moon, Scale, Smile } from "lucide-react";
-import { Robot } from "@/components/Logo";
-import { FEATURE, METRIC } from "@/components/theme";
-import { Badge, btn, LEVEL_TONE } from "@/components/ui";
+import { ArrowRight, ArrowUpRight, Lightbulb } from "lucide-react";
+import { Robot, RobotSays } from "@/components/Logo";
+import { TrendChart } from "@/components/TrendChart";
+import { FEATURE, Tile } from "@/components/theme";
+import { Badge, btn, LEVEL_TONE, Ring } from "@/components/ui";
 import { buildPlan, tipOfDay } from "@/lib/actions";
 import { analyze, LEVEL_LABEL, OVERALL_LABEL, type Level } from "@/lib/health";
+import { simulate, suggestedChanges } from "@/lib/simulate";
 import { todayKey, useCare, useHydrated } from "@/lib/store";
 
-type Metric = keyof typeof METRIC;
-
-function Stat({
-  metric,
-  icon: Icon,
-  label,
-  value,
-  level,
-  fill,
-}: {
-  metric: Metric;
-  icon: typeof Moon;
-  label: string;
-  value: string;
-  level: Level | null;
-  fill: number;
-}) {
-  const m = METRIC[metric];
+function Stat({ label, value, level }: { label: string; value: string; level: Level | null }) {
   return (
-    <div className={`rounded-2xl p-4 ${m.soft}`}>
-      <span className={`grid size-9 place-items-center rounded-full text-white ${m.solid}`}>
-        <Icon className="size-[18px]" />
-      </span>
-      <p className="mt-3 text-sm font-medium">{label}</p>
-      <p className={`text-lg font-semibold tabular-nums ${m.text}`}>{value}</p>
-      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/80">
-        <div className={`grow-x h-full rounded-full ${m.bar}`} style={{ width: `${Math.max(6, Math.min(100, fill))}%` }} />
-      </div>
-      <p className="mt-1.5 text-xs text-muted">{level ? LEVEL_LABEL[level] : "ยังไม่มีข้อมูล"}</p>
+    <div className="p-5">
+      <p className="text-sm text-muted">{label}</p>
+      <p className="mt-1 text-2xl font-bold tabular-nums tracking-tight">{value}</p>
+      <p className={`mt-1 text-xs font-medium ${level ? LEVEL_TONE[level].text : "text-muted"}`}>{level ? LEVEL_LABEL[level] : "ยังไม่มีข้อมูล"}</p>
     </div>
   );
 }
@@ -46,192 +25,161 @@ export default function Home() {
   const ready = useHydrated();
   const profile = useCare((s) => s.profile);
   const updatedAt = useCare((s) => s.updatedAt);
+  const changes = useCare((s) => s.changes);
   const done = useCare((s) => s.done);
 
-  if (!ready) return <div className="h-96 animate-pulse rounded-card bg-surface-2" />;
+  if (!ready) return <div className="h-96 animate-pulse rounded-card bg-surface" />;
 
   const a = profile ? analyze(profile) : null;
+  const sim = profile ? simulate(profile, changes ?? suggestedChanges(profile), 5) : null;
   const plan = profile && a ? buildPlan(profile, a) : [];
   const doneToday = (done[todayKey()] ?? []).filter((id) => plan.some((p) => p.id === id)).length;
   const lvl = (id: string) => a?.factors.find((f) => f.id === id)?.level ?? null;
-  const chat = FEATURE.chat;
+  const date = new Date().toLocaleDateString("th-TH", { weekday: "long", day: "numeric", month: "long" });
+  const top = a?.factors.find((f) => f.level === "high");
 
   return (
-    <div className="stagger space-y-5">
-      {/* Banner */}
-      <section className="rise relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-sky-100 via-blue-50 to-emerald-50 p-6 sm:p-8">
-        <div className="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-sky-200/50 blur-3xl" />
-        <div className="relative flex items-center gap-4">
-          <div className="flex-1">
-            <p className="text-sm text-muted">สวัสดี{profile?.name ? ` ${profile.name}` : ""} 👋</p>
-            <p className="mt-2 text-2xl font-bold leading-snug text-[#123a73] sm:text-3xl">
-              “ทำให้คนเห็นผล
-              <br />
-              ของ<span className="text-blue-600">สุขภาพวันนี้</span>
-              <br />
-              เพื่อ<span className="text-blue-600">เริ่มเปลี่ยนแปลง</span>
-              <br className="sm:hidden" /> ก่อนที่จะสายเกินไป”
-            </p>
-          </div>
-          <div className="relative shrink-0">
-            <p className="absolute -left-20 -top-2 hidden rotate-[-6deg] rounded-2xl border border-blue-200 bg-white px-3 py-1.5 text-xs text-blue-700 shadow-soft sm:block">
-              สวัสดีครับ ผม CARE+
-            </p>
-            <Robot className="size-24 ring-8 ring-white/70 sm:size-32" priority />
-          </div>
+    <div className="stagger space-y-6">
+      <header className="flex items-end justify-between gap-6">
+        <div>
+          <p className="text-sm text-muted">{date}</p>
+          <h1 className="mt-2 text-[clamp(2rem,5vw,3rem)] font-bold leading-[1.15] tracking-tight">
+            สวัสดี{profile?.name ? ` ${profile.name}` : ""}
+            <br />
+            <span className="text-muted">วันนี้ดูแลตัวเองแล้วหรือยัง</span>
+          </h1>
         </div>
-      </section>
+        <RobotSays className="hidden md:flex" size="size-24">
+          {!a ? "เริ่มจากประเมินสุขภาพ 3 นาทีกันครับ" : top ? `วันนี้ลองดูเรื่อง${top.label}กันนะครับ` : "ทุกอย่างดูดีมากครับ รักษาไว้นะ"}
+        </RobotSays>
+      </header>
 
-      {/* Risk summary or onboarding */}
-      {!profile || !a ? (
-        <section className="flex flex-col gap-4 rounded-card border border-blue-200/70 bg-bg p-5 shadow-soft sm:flex-row sm:items-center">
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold">เริ่มจากการประเมินสุขภาพ 3 นาที</h2>
-            <p className="mt-1 text-sm text-muted">ตอบคำถามเรื่องการนอน อาหาร การออกกำลังกาย และความเครียด แล้ว CARE+ จะวิเคราะห์และจำลองแนวโน้มสุขภาพให้คุณ</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Link href="/app/check" className={btn.primary}>
+      {/* Chat entry, styled as the input it leads to. */}
+      <Link href={FEATURE.chat.href} className="lift group flex items-center gap-3 rounded-full border border-hairline bg-bg py-2 pl-2 pr-2.5 shadow-soft">
+        <Robot className="size-11" />
+        <span className="flex-1 truncate text-muted">เล่าอาการหรือพฤติกรรมให้น้อง CARE+ ฟังได้เลย…</span>
+        <span className="pill size-11 shrink-0 p-0">
+          <ArrowRight className="size-5" />
+        </span>
+      </Link>
+
+      {!profile || !a || !sim ? (
+        <section className="relative overflow-hidden rounded-card border border-hairline p-8 sm:p-10">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            ยังไม่รู้ว่าอนาคตเป็นอย่างไร
+            <br />
+            <span className="text-muted">ลองประเมินดูก่อน</span>
+          </h2>
+          <p className="mt-3 max-w-lg text-muted">
+            ตอบคำถามเรื่องการนอน อาหาร การออกกำลังกาย และความเครียด แล้ว CARE+ จะวิเคราะห์และจำลองแนวโน้มสุขภาพ 10 ปีให้คุณ
+          </p>
+          <div className="mt-7 flex flex-wrap items-center gap-5">
+            <Link href="/app/check" className="pill px-6 py-3">
               ประเมินสุขภาพ <ArrowRight className="size-4" />
             </Link>
-            <Link href="/app/demo" className={btn.ghost}>
+            <Link href="/app/demo" className="text-sm font-semibold underline decoration-hairline decoration-2 underline-offset-8 hover:decoration-ink">
               ใช้ข้อมูลตัวอย่าง
             </Link>
           </div>
         </section>
       ) : (
-        <Link
-          href="/app/analysis"
-          className={`flex items-center gap-4 rounded-card border p-5 shadow-soft lift ${LEVEL_TONE[a.overallLevel].bg} border-transparent`}
-        >
-          <span className={`grid size-12 shrink-0 place-items-center rounded-full bg-white ${LEVEL_TONE[a.overallLevel].text}`}>
-            <HeartPulse className="size-6" />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-sm text-muted">ความเสี่ยงโดยรวม</span>
-            <span className={`block text-xl font-bold ${LEVEL_TONE[a.overallLevel].text}`}>
-              {OVERALL_LABEL[a.overallLevel]} <span className="tabular-nums">({a.overall}%)</span>
-            </span>
-            <span className="block truncate text-sm text-muted">
-              ควรใส่ใจ:{" "}
+        <section className="grid overflow-hidden rounded-card border border-hairline md:grid-cols-[0.8fr_1.2fr]">
+          <Link href="/app/analysis" className="group flex flex-col gap-6 border-b border-hairline p-6 transition hover:bg-surface md:border-b-0 md:border-r">
+            <div className="flex items-center justify-between">
+              <p className="font-semibold">ความเสี่ยงโดยรวม</p>
+              <ArrowUpRight className="size-5 text-muted transition group-hover:text-ink" />
+            </div>
+            <div className="flex items-center gap-5">
+              <Ring value={a.overall} level={a.overallLevel} size={96} label="ความเสี่ยงโดยรวม" />
+              <div>
+                <p className={`text-2xl font-bold ${LEVEL_TONE[a.overallLevel].text}`}>{OVERALL_LABEL[a.overallLevel]}</p>
+                <p className="mt-1 text-sm text-muted">{a.factors.filter((f) => f.level !== "good").length} เรื่องที่ควรใส่ใจ</p>
+              </div>
+            </div>
+            <ul className="space-y-2 border-t border-hairline pt-4 text-sm">
               {a.factors
                 .filter((f) => f.level === "high")
-                .map((f) => f.label)
-                .join(", ") || "ไม่มีปัจจัยเสี่ยงสูง"}
-            </span>
-          </span>
-          <ChevronRight className="size-5 shrink-0 text-muted" />
-        </Link>
+                .slice(0, 3)
+                .map((f) => (
+                  <li key={f.id} className="flex items-center justify-between gap-3">
+                    <span className="truncate">{f.label}</span>
+                    <span className="shrink-0 tabular-nums text-muted">{f.value}</span>
+                  </li>
+                ))}
+            </ul>
+          </Link>
+          <Link href="/app/simulate" className="group p-6 transition hover:bg-surface">
+            <div className="flex items-center justify-between">
+              <p className="font-semibold">อีก 5 ปีข้างหน้า</p>
+              <ArrowUpRight className="size-5 text-muted transition group-hover:text-ink" />
+            </div>
+            <TrendChart current={sim.current} improved={sim.improved} className="mt-2" />
+          </Link>
+        </section>
       )}
 
-      {/* Chat */}
-      <Link href={chat.href} className={`group flex items-center gap-4 rounded-card border p-5 shadow-soft lift ${chat.soft} ${chat.border}`}>
-        <span className={`grid size-14 shrink-0 place-items-center rounded-full text-white shadow-soft ${chat.solid}`}>
-          <chat.icon className="size-7" />
-        </span>
-        <span className="flex-1">
-          <span className="block text-xl font-bold text-[#123a73]">{chat.title}</span>
-          <span className="block text-sm text-muted">{chat.body}</span>
-        </span>
-        <ChevronRight className="size-5 text-blue-500 transition group-hover:translate-x-0.5" />
-      </Link>
-
-      {/* Feature tiles */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+      <div className="grid gap-3 sm:grid-cols-2">
         {(["analysis", "simulate", "plan", "care"] as const).map((k) => {
           const f = FEATURE[k];
           return (
-            <Link
-              key={k}
-              href={f.href}
-              className={`group flex flex-col gap-3 rounded-card border p-4 shadow-soft lift sm:flex-row sm:items-center sm:p-5 ${f.soft} ${f.border}`}
-            >
-              <span className={`grid size-12 shrink-0 place-items-center rounded-full text-white shadow-soft ${f.solid}`}>
-                <f.icon className="size-6" />
-              </span>
+            <Link key={k} href={f.href} className="lift group flex items-center gap-4 rounded-card border border-hairline bg-bg p-5">
+              <Tile feature={k} />
               <span className="min-w-0 flex-1">
-                <span className="flex items-center justify-between gap-2 font-bold text-[#123a73]">
-                  {f.title} <ChevronRight className={`size-4 shrink-0 transition group-hover:translate-x-0.5 ${f.text}`} />
-                </span>
-                <span className="mt-0.5 block text-xs leading-relaxed text-muted sm:text-sm">{f.body}</span>
+                <span className="block font-semibold">{f.title}</span>
+                <span className="block truncate text-sm text-muted">{f.body}</span>
               </span>
+              <ArrowRight className="size-4 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-ink" />
             </Link>
           );
         })}
       </div>
 
-      {/* Overview */}
-      <section className="rounded-card border border-hairline bg-bg p-5 shadow-soft">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h2 className="font-bold text-[#123a73]">ภาพรวมสุขภาพของคุณ</h2>
-            <p className="text-xs text-muted">
-              {updatedAt
-                ? `อัปเดตล่าสุด ${new Date(updatedAt).toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "numeric" })}`
-                : "ยังไม่ได้บันทึกข้อมูล"}
-            </p>
-          </div>
-          <Link href="/app/analysis" className="inline-flex items-center gap-1 rounded-full border border-hairline px-3 py-1 text-xs text-muted hover:text-ink">
-            ดูรายละเอียด <ChevronRight className="size-3.5" />
-          </Link>
+      <section className="rounded-card border border-hairline">
+        <div className="flex items-center justify-between border-b border-hairline px-5 py-4">
+          <h2 className="font-semibold">ภาพรวมสุขภาพของคุณ</h2>
+          <p className="text-xs text-muted">
+            {updatedAt ? `อัปเดต ${new Date(updatedAt).toLocaleDateString("th-TH", { day: "numeric", month: "short" })}` : "ยังไม่ได้บันทึก"}
+          </p>
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-          <Stat
-            metric="stress"
-            icon={Smile}
-            label="ความเครียด"
-            value={profile ? `${profile.stress}/10` : "–"}
-            level={lvl("stress")}
-            fill={profile ? 100 - profile.stress * 10 : 0}
-          />
-          <Stat
-            metric="sleep"
-            icon={Moon}
-            label="การนอนหลับ"
-            value={profile ? `${profile.sleepHours} ชม.` : "–"}
-            level={lvl("sleepHours")}
-            fill={profile ? (profile.sleepHours / 8) * 100 : 0}
-          />
-          <Stat
-            metric="bp"
-            icon={HeartPulse}
-            label="ความดัน"
-            value={profile?.systolic ? `${profile.systolic}/${profile.diastolic}` : "–"}
-            level={a?.bpLevel ?? null}
-            fill={profile?.systolic ? (profile.systolic / 160) * 100 : 0}
-          />
-          <Stat metric="bmi" icon={Scale} label="BMI" value={a ? a.bmi.toFixed(1) : "–"} level={a?.bmiLevel ?? null} fill={a ? (a.bmi / 35) * 100 : 0} />
+        <div className="grid grid-cols-2 md:grid-cols-4 [&>*]:border-hairline [&>*:nth-child(-n+2)]:border-b md:[&>*:nth-child(-n+2)]:border-b-0 [&>*:nth-child(odd)]:border-r md:[&>*:not(:last-child)]:border-r">
+          <Stat label="ความเครียด" value={profile ? `${profile.stress}/10` : "–"} level={lvl("stress")} />
+          <Stat label="การนอนหลับ" value={profile ? `${profile.sleepHours} ชม.` : "–"} level={lvl("sleepHours")} />
+          <Stat label="ความดัน" value={profile?.systolic ? `${profile.systolic}/${profile.diastolic}` : "–"} level={a?.bpLevel ?? null} />
+          <Stat label="BMI" value={a ? a.bmi.toFixed(1) : "–"} level={a?.bmiLevel ?? null} />
         </div>
       </section>
 
-      {plan.length > 0 && (
-        <Link href="/app/plan" className="block rounded-card border border-orange-200/70 bg-gradient-to-br from-orange-50 to-amber-50 p-5 shadow-soft lift">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h2 className="font-bold text-[#123a73]">เป้าหมายวันนี้</h2>
-              <p className="text-sm text-muted">
-                ทำแล้ว {doneToday} จาก {plan.length} ข้อ
-              </p>
+      <div className="grid gap-3 md:grid-cols-[1.1fr_1fr]">
+        {plan.length > 0 ? (
+          <Link href="/app/plan" className="lift block rounded-card border border-hairline bg-bg p-5">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <h2 className="font-semibold">เป้าหมายวันนี้</h2>
+                <p className="text-sm text-muted">
+                  ทำแล้ว {doneToday} จาก {plan.length} ข้อ
+                </p>
+              </div>
+              <Badge level={doneToday === plan.length ? "good" : "watch"}>{Math.round((doneToday / plan.length) * 100)}%</Badge>
             </div>
-            <Badge level={doneToday === plan.length ? "good" : "watch"}>{Math.round((doneToday / plan.length) * 100)}%</Badge>
+            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-surface-2">
+              <div className="grow-x h-full rounded-full bg-ink" style={{ width: `${(doneToday / plan.length) * 100}%` }} />
+            </div>
+          </Link>
+        ) : (
+          <Link href="/app/check" className={`${btn.ghost} h-full rounded-card`}>
+            กรอกข้อมูลเพื่อรับแผนรายวัน
+          </Link>
+        )}
+        <section className="flex items-start gap-4 rounded-card bg-surface p-5">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-amber-100">
+            <Lightbulb className="size-5" strokeWidth={1.8} />
+          </span>
+          <div>
+            <p className="font-semibold">เคล็ดลับวันนี้</p>
+            <p className="mt-0.5 text-sm leading-relaxed text-muted">{tipOfDay()}</p>
           </div>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-[width]"
-              style={{ width: `${(doneToday / plan.length) * 100}%` }}
-            />
-          </div>
-        </Link>
-      )}
-
-      <section className="flex items-center gap-4 rounded-card border border-sky-200/70 bg-gradient-to-r from-sky-50 to-blue-50 p-5">
-        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-sky-400 to-blue-600 text-white">
-          <Lightbulb className="size-5" />
-        </span>
-        <div>
-          <p className="font-bold text-[#123a73]">เคล็ดลับวันนี้</p>
-          <p className="mt-0.5 text-sm text-muted">{tipOfDay()}</p>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

@@ -62,40 +62,41 @@ export function FutureJourney() {
   const imp = sim.improved[i];
 
   return (
-    <section ref={root} aria-label="เดินทางสู่อนาคต" className="journey relative bg-gradient-to-b from-white via-sky-50 to-white">
-      <div className="journey-frame flex items-center">
+    <section ref={root} aria-label="เดินทางสู่อนาคต" className="journey relative border-t border-hairline bg-bg">
+      <div className="journey-frame relative flex items-center overflow-hidden">
+        <div className="grid-paper pointer-events-none absolute inset-0 -z-10 opacity-70" aria-hidden="true" />
         <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 py-14 md:grid-cols-[0.9fr_1.1fr] md:gap-12">
           <div>
-            <p className="text-sm font-medium text-emerald-600">เลื่อนลงเพื่อเดินทางสู่อนาคต</p>
-            <p className="mt-3 text-6xl font-bold tabular-nums tracking-tight text-[#123a73] sm:text-7xl">{i === 0 ? "วันนี้" : `ปีที่ ${i}`}</p>
+            <p className="text-[clamp(4rem,10vw,7.5rem)] font-bold leading-none tabular-nums tracking-tight">{i === 0 ? "วันนี้" : `ปีที่ ${i}`}</p>
             <div key={stage.title} className="rise mt-5 min-h-28">
-              <p className="text-xl font-bold text-[#123a73]">{stage.title}</p>
+              <p className="text-2xl font-bold">{stage.title}</p>
               <p className="mt-2 max-w-md leading-relaxed text-muted">{stage.body}</p>
             </div>
-            <div className="mt-6 h-1.5 max-w-md overflow-hidden rounded-full bg-blue-100" aria-hidden="true">
-              <div className="h-full rounded-full bg-gradient-to-r from-sky-400 via-blue-500 to-emerald-500" style={{ width: `${p * 100}%` }} />
+            <div className="mt-8 h-1 max-w-md overflow-hidden rounded-full bg-surface-2" aria-hidden="true">
+              <div className="h-full rounded-full bg-ink" style={{ width: `${p * 100}%` }} />
             </div>
+            <p className="mt-3 text-sm text-muted">เลื่อนลงเพื่อเดินหน้าไปในอนาคต</p>
           </div>
 
-          <div className="relative rounded-[1.75rem] border border-blue-100 bg-white p-5 shadow-[0_20px_60px_rgb(43_124_243/0.15)] sm:p-6">
+          <div className="relative rounded-[1.75rem] border border-hairline bg-bg p-5 shadow-[0_24px_60px_rgb(11_11_15/0.10)] sm:p-7">
             <div
               className="pointer-events-none absolute -top-10 z-10 hidden transition-[left] duration-300 ease-out sm:block"
               style={{ left: `calc(${8 + p * 72}% - 2rem)` }}
               aria-hidden="true"
             >
-              <Robot className="size-16 shadow-soft ring-4 ring-white" />
+              <Robot className="size-16 shadow-soft ring-4 ring-white sm:size-20" />
             </div>
             <p className="text-sm text-muted">ตัวอย่าง: นักศึกษา 27 ปี</p>
             <TrendChart current={sim.current} improved={sim.improved} progress={p} className="mt-3" />
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="rounded-2xl bg-rose-50 p-4">
+              <div className="rounded-2xl bg-surface p-4">
                 <p className="text-xs text-muted">ถ้ายังใช้ชีวิตแบบเดิม</p>
-                <p className="mt-1 text-3xl font-bold tabular-nums text-rose-600">{cur.overall}%</p>
+                <p className="mt-1 text-4xl font-bold tabular-nums tracking-tight">{cur.overall}%</p>
                 <p className="text-xs tabular-nums text-muted">น้ำหนัก {cur.weightKg} กก.</p>
               </div>
-              <div className="rounded-2xl bg-emerald-50 p-4">
+              <div className="rounded-2xl bg-accent-soft p-4">
                 <p className="text-xs text-muted">ถ้าเริ่มปรับวันนี้</p>
-                <p className="mt-1 text-3xl font-bold tabular-nums text-emerald-600">{imp.overall}%</p>
+                <p className="mt-1 text-4xl font-bold tabular-nums tracking-tight text-accent">{imp.overall}%</p>
                 <p className="text-xs tabular-nums text-muted">น้ำหนัก {imp.weightKg} กก.</p>
               </div>
             </div>

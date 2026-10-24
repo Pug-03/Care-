@@ -105,7 +105,7 @@ function Choice<T extends string | number>({ value, options, onChange }: { value
           role="radio"
           aria-checked={value === v}
           onClick={() => onChange(v)}
-          className={`rounded-full border px-4 py-2 text-sm transition ${value === v ? "border-accent bg-accent-soft font-medium text-accent-text" : "border-hairline hover:bg-surface"}`}
+          className={`rounded-full border px-4 py-2 text-sm transition ${value === v ? "border-ink bg-ink font-medium text-white" : "border-hairline hover:border-ink/40"}`}
         >
           {label}
         </button>
@@ -154,14 +154,13 @@ export default function CheckPage() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <PageHead
-        eyebrow={`ขั้นที่ ${step + 1} จาก ${STEPS.length}`}
-        title={STEPS[step]}
-        sub="ตอบตามพฤติกรรมจริงในช่วง 1–3 เดือนที่ผ่านมา ยิ่งตรงความจริง ผลวิเคราะห์ยิ่งแม่นยำ"
-      />
+      <PageHead title={STEPS[step]} sub="ตอบตามพฤติกรรมจริงในช่วง 1–3 เดือนที่ผ่านมา ยิ่งตรงความจริง ผลวิเคราะห์ยิ่งแม่นยำ" />
+      <p className="mb-2 text-sm text-muted">
+        ขั้นที่ {step + 1} จาก {STEPS.length}
+      </p>
       <div className="mb-8 flex gap-1.5" aria-hidden="true">
         {STEPS.map((s, i) => (
-          <span key={s} className={`h-1.5 flex-1 rounded-full transition ${i <= step ? "bg-accent" : "bg-surface-2"}`} />
+          <span key={s} className={`h-1.5 flex-1 rounded-full transition ${i <= step ? "bg-ink" : "bg-surface-2"}`} />
         ))}
       </div>
 
@@ -220,7 +219,7 @@ export default function CheckPage() {
                     type="button"
                     aria-pressed={p.family[k]}
                     onClick={() => set({ family: { ...p.family, [k]: !p.family[k] } })}
-                    className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm transition ${p.family[k] ? "border-accent bg-accent-soft font-medium text-accent-text" : "border-hairline hover:bg-surface"}`}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm transition ${p.family[k] ? "border-ink bg-ink font-medium text-white" : "border-hairline hover:border-ink/40"}`}
                   >
                     {p.family[k] && <Check className="size-3.5" />}
                     {label}

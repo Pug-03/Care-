@@ -10,18 +10,18 @@ import { analyze, LEVEL_LABEL, levelOfScore, OVERALL_LABEL, type Level } from "@
 const RANK: Record<Level, number> = { high: 0, watch: 1, good: 2 };
 
 const FACTOR_ICON: Record<Factor["id"], [LucideIcon, string]> = {
-  bmi: [Scale, "from-amber-400 to-orange-500"],
-  bp: [HeartPulse, "from-rose-400 to-pink-600"],
-  sleepHours: [Moon, "from-indigo-400 to-violet-600"],
-  exerciseDays: [Dumbbell, "from-orange-400 to-red-500"],
-  sweet: [Utensils, "from-emerald-400 to-teal-600"],
-  salty: [Utensils, "from-emerald-400 to-teal-600"],
-  fatty: [Utensils, "from-emerald-400 to-teal-600"],
-  veggies: [Salad, "from-lime-400 to-green-600"],
-  water: [Droplet, "from-sky-400 to-blue-600"],
-  stress: [Brain, "from-yellow-400 to-amber-500"],
-  smoking: [Cigarette, "from-slate-400 to-slate-600"],
-  alcohol: [Beer, "from-fuchsia-400 to-purple-600"],
+  bmi: [Scale, "bg-amber-100"],
+  bp: [HeartPulse, "bg-rose-100"],
+  sleepHours: [Moon, "bg-indigo-100"],
+  exerciseDays: [Dumbbell, "bg-orange-100"],
+  sweet: [Utensils, "bg-emerald-100"],
+  salty: [Utensils, "bg-emerald-100"],
+  fatty: [Utensils, "bg-emerald-100"],
+  veggies: [Salad, "bg-lime-100"],
+  water: [Droplet, "bg-sky-100"],
+  stress: [Brain, "bg-yellow-100"],
+  smoking: [Cigarette, "bg-slate-100"],
+  alcohol: [Beer, "bg-fuchsia-100"],
 };
 
 export default function Analysis() {
@@ -36,7 +36,6 @@ export default function Analysis() {
             เพื่ออนาคตที่ดีกว่านะครับ
           </>
         }
-        eyebrow="Health Risk Analysis"
         title="AI วิเคราะห์"
         sub="วิเคราะห์ความเสี่ยงสุขภาพจากข้อมูลและพฤติกรรมของคุณ เพื่อให้เห็นว่าตอนนี้มีจุดใดที่ควรใส่ใจ"
       />
@@ -105,8 +104,8 @@ export default function Analysis() {
                       {(() => {
                         const [Icon, grad] = FACTOR_ICON[f.id];
                         return (
-                          <span className={`grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br text-white ${grad}`} aria-hidden="true">
-                            <Icon className="size-5" />
+                          <span className={`grid size-11 shrink-0 place-items-center rounded-xl text-ink ${grad}`} aria-hidden="true">
+                            <Icon className="size-5" strokeWidth={1.8} />
                           </span>
                         );
                       })()}

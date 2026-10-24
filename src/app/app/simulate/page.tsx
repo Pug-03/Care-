@@ -56,7 +56,7 @@ function Freqs({ value, onChange }: { value: Freq; onChange: (v: Freq) => void }
           type="button"
           aria-pressed={value === f}
           onClick={() => onChange(f)}
-          className={`rounded-lg py-1.5 text-xs transition ${value === f ? "bg-white font-medium text-emerald-700 shadow-soft" : "text-muted hover:text-ink"}`}
+          className={`rounded-lg py-1.5 text-xs transition ${value === f ? "bg-white font-medium text-ink shadow-soft" : "text-muted hover:text-ink"}`}
         >
           {FREQ_LABEL[f]}
         </button>
@@ -106,20 +106,15 @@ function Simulator({ p }: { p: Profile }) {
               ["ปรับเปลี่ยนพฤติกรรม", "ถ้าเริ่มปรับตามที่เลือก", imp, sim.improvedEnd, sim.improvedEndProfile, "good"],
             ] as const
           ).map(([title, sub, pt, end, prof, tone]) => (
-            <section
-              key={title}
-              className={`rounded-card border p-4 shadow-soft sm:p-5 ${tone === "high" ? "border-rose-200/70 bg-gradient-to-b from-rose-50 to-white" : "border-emerald-200/70 bg-gradient-to-b from-emerald-50 to-white"}`}
-            >
+            <section key={title} className={`rounded-card p-5 sm:p-6 ${tone === "high" ? "bg-surface" : "bg-accent-soft"}`}>
               <div className="flex items-center gap-2.5">
-                <span
-                  className={`grid size-9 shrink-0 place-items-center rounded-full text-white ${tone === "high" ? "bg-gradient-to-br from-rose-400 to-pink-600" : "bg-gradient-to-br from-emerald-400 to-teal-600"}`}
-                >
-                  {tone === "high" ? <TrendingUp className="size-5" /> : <Leaf className="size-5" />}
+                <span className={`grid size-9 shrink-0 place-items-center rounded-xl ${tone === "high" ? "bg-white text-ink" : "bg-accent text-white"}`}>
+                  {tone === "high" ? <TrendingUp className="size-5" strokeWidth={1.8} /> : <Leaf className="size-5" strokeWidth={1.8} />}
                 </span>
-                <h3 className="font-bold text-[#123a73]">{title}</h3>
+                <h3 className="font-bold">{title}</h3>
               </div>
               <p className="text-xs text-muted">{sub}</p>
-              <p className={`mt-3 text-3xl font-semibold tabular-nums ${tone === "high" ? "text-rose-600" : "text-emerald-600"}`}>{pt.overall}%</p>
+              <p className={`mt-3 text-4xl font-bold tabular-nums tracking-tight ${tone === "high" ? "text-ink" : "text-accent"}`}>{pt.overall}%</p>
               <p className="text-xs text-muted">
                 {OVERALL_LABEL[end.overallLevel]} ในอีก {years} ปี
               </p>
@@ -155,7 +150,7 @@ function Simulator({ p }: { p: Profile }) {
 
       <Card className="h-fit lg:sticky lg:top-10">
         <div className="flex items-center justify-between">
-          <h2 className="font-bold text-[#123a73]">ถ้าฉันปรับ…</h2>
+          <h2 className="font-bold">ถ้าฉันปรับ…</h2>
           <button type="button" onClick={() => setChanges(null)} className="inline-flex items-center gap-1 text-sm text-muted hover:text-ink">
             <RotateCcw className="size-3.5" /> ค่าแนะนำ
           </button>
@@ -221,7 +216,6 @@ export default function Simulate() {
             เปลี่ยนอนาคตได้นะครับ
           </>
         }
-        eyebrow="Future Health Simulation"
         title="จำลองอนาคต"
         sub="เปรียบเทียบสุขภาพในอนาคต ระหว่างการใช้ชีวิตแบบเดิม กับการเริ่มปรับพฤติกรรมตั้งแต่วันนี้"
       />

@@ -8,3 +8,9 @@ coverage
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+
+# Impeccable review captures and build state
+.impeccable/review/
+.impeccable/build/
+.impeccable/mocks/
+.impeccable/config.local.json

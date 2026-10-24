@@ -69,7 +69,9 @@ export function ScrollFx() {
       });
 
       all('[data-fx="countup"]').forEach((el) => {
-        const to = Number(el.dataset.to ?? el.textContent?.replace(/,/g, ""));
+        // Remember the real value the first time: a media-query re-run would otherwise read back the 0 we wrote.
+        el.dataset.to ??= el.textContent?.replace(/,/g, "") ?? "0";
+        const to = Number(el.dataset.to);
         const decimals = Number(el.dataset.decimals ?? 0);
         const v = { n: 0 };
         const fmt = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
