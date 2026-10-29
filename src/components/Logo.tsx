@@ -5,7 +5,7 @@ import type { Form, Mood } from "@/lib/pet";
 
 /** The CARE+ cat's face, cropped from the app icon. Used as the mark and the mascot avatar. */
 export function Mark({ className = "size-8" }: { className?: string }) {
-  return <Image src="/brand/cat.png" alt="" width={256} height={256} className={`rounded-[30%] object-cover ${className}`} />;
+  return <Image src="/brand/cat-hd.png" alt="" width={256} height={256} className={`rounded-[30%] object-cover ${className}`} />;
 }
 
 export function Logo({ href = "/", className = "" }: { href?: string; className?: string }) {
@@ -21,7 +21,7 @@ export function Logo({ href = "/", className = "" }: { href?: string; className?
 
 /** The cat mascot as a round avatar. */
 export function Cat({ className = "size-10", priority = false }: { className?: string; priority?: boolean }) {
-  return <Image src="/brand/cat.png" alt="" width={256} height={256} priority={priority} className={`rounded-full bg-sky-50 object-cover ${className}`} />;
+  return <Image src="/brand/cat-hd.png" alt="" width={256} height={256} priority={priority} className={`rounded-full bg-sky-50 object-cover ${className}`} />;
 }
 
 export function AppIcon({ className = "size-40", priority = false }: { className?: string; priority?: boolean }) {
@@ -33,7 +33,7 @@ const FORM_SIZE: Record<Form, [number, number]> = { sprout: [811, 900], cloud: [
 /** One of the four cat characters, full body. */
 export function CatForm({ form, className = "", priority = false, alt = "" }: { form: Form; className?: string; priority?: boolean; alt?: string }) {
   const [w, h] = FORM_SIZE[form];
-  return <Image src={`/brand/cats/${form}.png`} alt={alt} width={w} height={h} priority={priority} className={`object-contain ${className}`} />;
+  return <Image src={`/brand/cats/${form}-hd.png`} alt={alt} width={w} height={h} priority={priority} className={`object-contain ${className}`} />;
 }
 
 /** The cat's face for a mood. Mood faces exist for Sprout only, so the other characters show their own picture instead. */

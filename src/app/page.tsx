@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Brain, Check, CupSoda, Droplet, Footprints, HeartPulse, Moon, Salad, Scale, Smartphone, Wind, X, type LucideIcon } from "lucide-react";
-import { Cat, CatForm, Logo } from "@/components/Logo";
+import { CatForm, Logo } from "@/components/Logo";
 import { ScrollFx } from "@/components/motion/ScrollFx";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { FEATURE, Tile, type FeatureKey } from "@/components/theme";
@@ -65,6 +65,18 @@ function Scribble({ children }: { children: React.ReactNode }) {
         <path d="M2 8.5C40 3.5 92 2.6 132 4.6c22 1.1 44 2.6 66 4.4" fill="none" stroke="var(--accent)" strokeWidth="4" strokeLinecap="round" pathLength={1} />
       </svg>
     </span>
+  );
+}
+
+/** A soft white cloud for the closing sky. Decorative. */
+function Cloud({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 200 90" className={`pointer-events-none ${className}`} aria-hidden="true">
+      <path
+        d="M38 82C18 82 6 70 6 56s12-26 28-26c3-15 17-26 34-26 14 0 26 8 31 20 5-3 11-5 17-5 17 0 30 12 31 28 15 1 27 12 27 25 0 6-2 10-5 10H38Z"
+        fill="#fff"
+      />
+    </svg>
   );
 }
 
@@ -276,21 +288,34 @@ export default function Landing() {
         </section>
 
         {/* Close */}
-        <section data-fx="sheet" className="relative overflow-hidden bg-ink px-5 py-20 text-center text-white md:py-28">
-          <Cat className="float mx-auto size-24 ring-8 ring-white/10 sm:size-28" />
-          <p className="mx-auto mt-10 max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.2] tracking-tight">
-            เริ่มดูแลตัวเองวันนี้
-            <br />
-            <span className="text-white/55">น้องแมวรออยู่นะ</span>
-          </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-5 sm:mt-12">
-            <Link href="/app/quiz" className="pill whitespace-nowrap px-6 py-3.5 text-base [--bg:var(--text)] [--text:#fff] sm:px-8 sm:py-4 sm:text-lg">
-              เริ่มทำแบบประเมิน <ArrowRight className="size-5" />
-            </Link>
-            <Link href="/app/demo" className="font-semibold text-white underline decoration-white/30 decoration-2 underline-offset-8 hover:decoration-white">
-              ดูตัวอย่าง
-            </Link>
+        {/* Close: a light sky with soft clouds, and the four cats waiting along the bottom edge. */}
+        <section data-fx="sheet" className="relative overflow-hidden bg-[#eaf3ff] px-5 pt-20 text-center md:pt-28">
+          <Cloud className="absolute -left-10 top-10 w-48 opacity-90 sm:w-64" />
+          <Cloud className="absolute -right-12 top-24 w-40 opacity-80 sm:w-72" />
+          <Cloud className="absolute left-[18%] top-[46%] hidden w-36 opacity-70 md:block" />
+          <Cloud className="absolute right-[16%] top-[52%] hidden w-28 opacity-70 md:block" />
+          <div className="relative">
+            <p className="mx-auto max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.2] tracking-tight">
+              เริ่มดูแลตัวเองวันนี้
+              <br />
+              <span className="text-[#5b7aa6]">น้องแมวรออยู่นะ</span>
+            </p>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-5 sm:mt-12">
+              <Link href="/app/quiz" className="pill whitespace-nowrap px-6 py-3.5 text-base [--bg:#eaf3ff] sm:px-8 sm:py-4 sm:text-lg">
+                เริ่มทำแบบประเมิน <ArrowRight className="size-5" />
+              </Link>
+              <Link href="/app/demo" className="font-semibold underline decoration-ink/25 decoration-2 underline-offset-8 hover:decoration-ink">
+                ดูตัวอย่าง
+              </Link>
+            </div>
           </div>
+          <ul className="relative mx-auto mt-14 flex max-w-4xl items-end justify-center gap-1 sm:mt-16 sm:gap-6" aria-hidden="true">
+            {(Object.keys(FORMS) as Form[]).map((k, i) => (
+              <li key={k} className={i === 1 || i === 2 ? "translate-y-1" : ""}>
+                <CatForm form={k} className="h-24 w-auto max-w-full sm:h-36 md:h-44" />
+              </li>
+            ))}
+          </ul>
         </section>
       </main>
 
