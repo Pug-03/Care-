@@ -68,6 +68,9 @@ body {
 }
 
 @layer base {
+  p {
+    text-wrap: pretty;
+  }
   :focus-visible {
     outline: 2px solid var(--focus);
     outline-offset: 2px;
@@ -406,5 +409,13 @@ html.js .reveal.is-visible {
 @media (prefers-reduced-motion: reduce) {
   .tip-ping {
     display: none;
+  }
+}
+
+/* The primary pill keeps still for people who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .pill:hover,
+  .pill:active {
+    transform: none;
   }
 }

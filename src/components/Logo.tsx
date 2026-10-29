@@ -28,7 +28,7 @@ export function AppIcon({ className = "size-40", priority = false }: { className
   return <Image src="/brand/icon.png" alt="ไอคอนแอป CARE+ รูปแมวกับใบไม้อ่อน" width={512} height={512} priority={priority} className={className} />;
 }
 
-const FORM_SIZE: Record<Form, [number, number]> = { sprout: [540, 590], cloud: [374, 590], cozy: [486, 530], glow: [354, 580] };
+const FORM_SIZE: Record<Form, [number, number]> = { sprout: [811, 900], cloud: [778, 900], cozy: [1041, 900], glow: [669, 900] };
 
 /** One of the four cat characters, full body. */
 export function CatForm({ form, className = "", priority = false, alt = "" }: { form: Form; className?: string; priority?: boolean; alt?: string }) {
@@ -36,8 +36,9 @@ export function CatForm({ form, className = "", priority = false, alt = "" }: { 
   return <Image src={`/brand/cats/${form}.png`} alt={alt} width={w} height={h} priority={priority} className={`object-contain ${className}`} />;
 }
 
-/** Sprout Cat's face for each mood. */
-export function CatFace({ mood, className = "size-12" }: { mood: Mood; className?: string }) {
+/** The cat's face for a mood. Mood faces exist for Sprout only, so the other characters show their own picture instead. */
+export function CatFace({ mood, form = "sprout", className = "size-12" }: { mood: Mood; form?: Form; className?: string }) {
+  if (form !== "sprout") return <CatForm form={form} className={className} />;
   return <Image src={`/brand/cats/sprout-${mood}.png`} alt="" width={180} height={170} className={`object-contain ${className}`} />;
 }
 

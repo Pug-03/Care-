@@ -36,6 +36,8 @@ function XpBadge({ className = "" }: { className?: string }) {
 
 export function AppNav() {
   const path = usePathname();
+  const ready = useHydrated();
+  const hasProfile = useCare((s) => s.profile !== null);
   const active = (href: string) => (href === "/app" ? path === "/app" : path.startsWith(href));
 
   return (
@@ -50,7 +52,7 @@ export function AppNav() {
               href={href}
               aria-current={active(href) ? "page" : undefined}
               className={`flex items-center gap-3 rounded-full px-4 py-2.5 text-[15px] transition ${
-                active(href) ? "bg-ink font-semibold text-white" : "font-medium text-ink hover:bg-surface"
+                active(href) ? "bg-ink font-semibold text-white" : "font-semibold text-ink hover:bg-surface"
               }`}
             >
               <Icon className="size-[18px]" strokeWidth={2.2} /> {label}
@@ -60,16 +62,20 @@ export function AppNav() {
         <p className="mt-auto px-4 text-xs leading-relaxed text-muted">ประเมินความเสี่ยงเบื้องต้น ไม่ใช่การวินิจฉัยโรค ฉุกเฉินโทร 1669</p>
       </aside>
 
-      <header className="sticky top-[env(safe-area-inset-top,0px)] z-30 flex h-16 items-center gap-2 border-b border-hairline bg-bg/90 px-4 backdrop-blur lg:hidden">
+      <header className="sticky top-[env(safe-area-inset-top,0px)] z-30 flex h-16 items-center gap-2 border-b border-hairline bg-bg px-4 lg:hidden">
         <Logo href="/app" />
         <XpBadge className="ml-auto" />
-        <Link href="/app/quiz" className="whitespace-nowrap rounded-full border border-hairline px-3.5 py-1.5 text-sm">
-          ประเมินใหม่
+        <Link
+          href="/app/quiz"
+          aria-current={active("/app/quiz") ? "page" : undefined}
+          className={`whitespace-nowrap rounded-full border px-3.5 py-2 text-sm font-semibold transition ${active("/app/quiz") ? "border-ink bg-ink text-white" : "border-hairline hover:border-ink/40"}`}
+        >
+          {ready && !hasProfile ? "เริ่มประเมิน" : "ประเมินใหม่"}
         </Link>
       </header>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-hairline bg-bg/95 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-hairline bg-bg pb-[env(safe-area-inset-bottom,0px)] lg:hidden"
         aria-label="เมนูแอป"
       >
         {ITEMS.filter((i) => !i.desktopOnly).map(({ href, label, short, icon: Icon }) => (

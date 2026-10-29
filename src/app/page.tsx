@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Brain, Check, CupSoda, Droplet, Footprints, HeartPulse, Moon, Salad, Scale, Smartphone, Wind, X, type LucideIcon } from "lucide-react";
-import { AppIcon, Cat, CatForm, Logo } from "@/components/Logo";
+import { Cat, CatForm, Logo } from "@/components/Logo";
 import { ScrollFx } from "@/components/motion/ScrollFx";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { FEATURE, Tile, type FeatureKey } from "@/components/theme";
@@ -95,17 +95,17 @@ export default function Landing() {
 
       <main id="main">
         {/* Hero: headline on the left, the app icon cat with the loop around it on the right. */}
-        <section className="mx-auto grid max-w-6xl items-center gap-x-14 gap-y-16 px-5 pb-24 pt-12 md:grid-cols-[1fr_0.95fr] md:pt-20">
+        <section className="mx-auto grid max-w-6xl items-center gap-x-14 gap-y-12 px-5 pb-20 pt-10 md:grid-cols-[1fr_0.95fr] md:pb-24 md:pt-20">
           <div className="rise">
             <h1 className="text-[clamp(2.75rem,7vw,5rem)] font-bold leading-[1.12] tracking-tight">
               ดูแลสุขภาพ
               <br />
               ไปกับ<Scribble>น้องแมว</Scribble>
             </h1>
-            <p className="mt-7 max-w-lg text-lg leading-relaxed text-muted sm:text-xl">
-              ประเมินความเสี่ยงสุขภาพเบื้องต้น เทียบทางเลือกด้วยข้อมูลที่มีแหล่งอ้างอิง ทำภารกิจเล็ก ๆ ทุกวัน แล้วเอา XP ไปเลี้ยงแมวของคุณ
+            <p className="mt-7 max-w-lg text-pretty text-lg leading-relaxed text-muted sm:text-xl">
+              ประเมินความเสี่ยงสุขภาพเบื้องต้น เทียบทางเลือกด้วยข้อมูลที่มีแหล่งอ้างอิง ทำภารกิจเล็ก ๆ ทุกวัน แล้วเอา XP <span className="whitespace-nowrap">ไปเลี้ยงแมวของคุณ</span>
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-5">
+            <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
               <Link href="/app/quiz" className="pill whitespace-nowrap px-6 py-3.5 text-base sm:px-8 sm:py-4 sm:text-lg">
                 เริ่มทำแบบประเมิน <ArrowRight className="size-5" />
               </Link>
@@ -113,53 +113,56 @@ export default function Landing() {
                 ดูตัวอย่าง
               </Link>
             </div>
-            <p className="mt-6 text-sm text-muted">3 นาที ไม่ต้องสมัครสมาชิก ข้อมูลอยู่ในเครื่องของคุณ</p>
+            <p className="mt-5 text-sm text-muted">3 นาที ไม่ต้องสมัครสมาชิก ข้อมูลอยู่ในเครื่องของคุณ</p>
           </div>
-          <div className="rise relative mx-auto w-full max-w-md [animation-delay:150ms]" aria-hidden="true">
-            <AppIcon priority className="float mx-auto h-auto w-[78%]" />
-            <span className="absolute left-0 top-[8%] flex items-center gap-2 rounded-2xl border border-hairline bg-bg px-3.5 py-2.5 text-sm shadow-soft">
+          <div className="rise relative mx-auto w-full max-w-sm [animation-delay:150ms] md:max-w-md" aria-hidden="true">
+            {/* Soft blue disc the cat sits in front of, echoing the app icon. */}
+            <span className="absolute inset-x-[8%] bottom-[6%] top-[10%] rounded-full bg-accent-soft" />
+            <CatForm form="sprout" priority className="float relative mx-auto mt-8 h-auto w-[72%]" />
+            <span className="absolute -left-4 top-0 z-10 flex items-center gap-2 rounded-2xl border border-hairline bg-bg px-3.5 py-2.5 text-sm shadow-soft">
               <span className="grid size-6 place-items-center rounded-full bg-accent text-white">
                 <Check className="size-3.5" strokeWidth={3} />
               </span>
               เดินเร็ว 15 นาที <b className="text-accent-text">+20 XP</b>
             </span>
-            <span className="absolute -right-1 top-[46%] rounded-2xl border border-hairline bg-bg px-3.5 py-2.5 text-sm shadow-soft">
+            <span className="absolute -right-3 top-[58%] z-10 rounded-2xl border border-hairline bg-bg px-3.5 py-2.5 text-sm shadow-soft">
               ปลานึ่ง <b>20 XP</b> <span className="text-muted">อิ่มท้อง +40</span>
             </span>
-            <span className="absolute bottom-[4%] left-[6%] rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white shadow-soft">ทำต่อเนื่อง 3 วัน</span>
+            <span className="absolute bottom-0 left-0 z-10 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white shadow-soft">ทำต่อเนื่อง 3 วัน</span>
           </div>
         </section>
 
         {/* Statement */}
-        <section className="relative overflow-hidden border-t border-hairline px-5 py-28 text-center">
+        <section className="relative overflow-hidden border-t border-hairline px-5 py-20 text-center md:py-28">
           <h2 className="text-[clamp(2.25rem,6vw,4.25rem)] font-bold leading-[1.15] tracking-tight">
             ผลของพฤติกรรม
             <br />
             <span className="text-muted">ไม่ได้มาในวันนี้</span>
           </h2>
-          <p className="mx-auto mt-10 max-w-3xl text-xl leading-[1.9] text-muted sm:text-2xl">
+          <p className="mx-auto mt-8 max-w-3xl text-pretty text-lg leading-[1.85] text-muted sm:mt-10 sm:text-2xl">
             โรคไม่ติดต่อเรื้อรังเป็นสาเหตุการเสียชีวิตของคนไทย{" "}
-            <strong className="text-ink">
+            <strong className="whitespace-nowrap text-ink">
               <span data-fx="countup">74</span>%
             </strong>{" "}
             หรือราว{" "}
-            <strong className="text-ink">
+            <strong className="whitespace-nowrap text-ink">
               <span data-fx="countup">400,000</span> คน
             </strong>{" "}
             ต่อปี และทำให้ประเทศเสียหายราว{" "}
-            <strong className="text-ink">
+            <strong className="whitespace-nowrap text-ink">
               <span data-fx="countup" data-decimals="1">
                 1.6
               </span>{" "}
               ล้านล้านบาท
             </strong>{" "}
-            ต่อปี ส่วนใหญ่เริ่มจากการนอน การกิน และการขยับในแต่ละวัน
+            ต่อปี
           </p>
-          <p className="mt-6 text-xs text-muted">ที่มา: WHO Thailand, NCDs Investment Case</p>
+          <p className="mx-auto mt-6 max-w-3xl text-pretty text-lg font-semibold sm:text-2xl">ส่วนใหญ่เริ่มจากการนอน การกิน และการขยับในแต่ละวัน</p>
+          <p className="mt-8 text-xs text-muted">ที่มา: WHO Thailand, NCDs Investment Case</p>
         </section>
 
         {/* How it works: the four components as one path, looping back to new missions. */}
-        <section id="how" className="mx-auto max-w-6xl px-5 py-28">
+        <section id="how" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20 md:py-28">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <h2 className="text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.15] tracking-tight">
               4 ขั้นตอน
@@ -170,13 +173,13 @@ export default function Landing() {
               ลองใช้แอป <ArrowRight className="size-4" />
             </Link>
           </div>
-          <div className="mt-16" data-fx="steps">
-            <ol className="relative grid gap-10 pl-10 md:grid-cols-4 md:gap-8 md:pl-0">
+          <div className="mt-12 md:mt-16" data-fx="steps">
+            <ol className="relative grid gap-10 pl-16 md:grid-cols-4 md:gap-8 md:pl-0">
               <span data-fx-line className="absolute bottom-2 left-[1.375rem] top-2 w-0.5 origin-top bg-ink md:hidden" aria-hidden="true" />
               <span data-fx-line className="absolute left-0 right-0 top-[1.375rem] hidden h-0.5 origin-left bg-ink md:block" aria-hidden="true" />
               {STEPS.map((s, i) => (
                 <li key={s.key} data-fx-item className="relative">
-                  <span className="absolute -left-10 top-0 md:static">
+                  <span className="absolute -left-16 top-0 md:static">
                     <span className="relative z-10 block w-fit rounded-xl ring-8 ring-bg">
                       <Tile feature={s.key} />
                     </span>
@@ -185,12 +188,12 @@ export default function Landing() {
                     {i + 1}. {FEATURE[s.key].en}
                   </p>
                   <h3 className="text-lg font-bold">{FEATURE[s.key].title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-muted">{s.body}</p>
+                  <p className="mt-2 text-pretty text-[15px] leading-relaxed text-muted">{s.body}</p>
                 </li>
               ))}
             </ol>
-            <div className="mt-10 flex items-center gap-4 md:pl-[50%]">
-              <svg viewBox="0 0 120 40" className="h-10 w-28 shrink-0 text-accent" aria-hidden="true">
+            <div className="mt-10 flex items-center gap-4 md:mt-12 md:pl-[50%]">
+              <svg viewBox="0 0 120 40" className="h-8 w-20 shrink-0 text-accent sm:h-10 sm:w-28" aria-hidden="true">
                 <path
                   d="M116 4C116 30 80 36 40 32 20 30 8 24 4 14"
                   fill="none"
@@ -201,15 +204,15 @@ export default function Landing() {
                 />
                 <path d="M1 22 4 13l9 4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <p className="text-lg">
-                แล้วกลับมาทำภารกิจใหม่ทุกวัน <span className="text-muted">ดูแลตัวเองต่อเนื่อง น้องแมวก็เติบโตไปด้วยกัน</span>
+              <p className="text-pretty text-base sm:text-lg">
+                แล้วกลับมาทำภารกิจใหม่ทุกวัน <span className="text-muted">ดูแลตัวเองต่อเนื่อง <span className="whitespace-nowrap">น้องแมวก็เติบโต</span>ไปด้วยกัน</span>
               </p>
             </div>
           </div>
         </section>
 
         {/* Mission band */}
-        <section className="overflow-hidden border-y border-hairline py-16">
+        <section className="overflow-hidden border-y border-hairline py-12 md:py-16">
           <div className="space-y-4">
             <HabitRow items={HABITS_A} dir={1} />
             <HabitRow items={HABITS_B} dir={-1} />
@@ -217,31 +220,33 @@ export default function Landing() {
         </section>
 
         {/* The four cats */}
-        <section id="cats" className="mx-auto max-w-6xl px-5 py-28">
+        <section id="cats" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20 md:py-28">
           <h2 className="text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.15] tracking-tight">
             เลี้ยงแมว
             <br />
             <span className="text-muted">แต่ได้ดูแลตัวเอง</span>
           </h2>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">น้องแมวมี 4 ร่าง และจะเปลี่ยนไปตามพฤติกรรมสุขภาพของคุณ</p>
-          <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-fx="stagger">
+          <ul className="mt-10 grid gap-3 sm:mt-14 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4" data-fx="stagger">
             {(Object.keys(FORMS) as Form[]).map((k) => (
-              <li key={k} data-fx-item className="flex flex-col rounded-card border border-hairline bg-bg p-5">
-                <div className="grid h-48 place-items-center rounded-2xl bg-accent-soft/50">
-                  <CatForm form={k} className="h-40 w-auto max-w-full" />
+              <li key={k} data-fx-item className="flex gap-4 rounded-card border border-hairline bg-bg p-4 sm:flex-col sm:gap-0 sm:p-5">
+                <div className="grid size-28 shrink-0 place-items-center rounded-2xl bg-accent-soft/50 sm:h-48 sm:w-auto">
+                  <CatForm form={k} className="h-24 w-auto max-w-full sm:h-40" />
                 </div>
-                <p className="mt-5 text-sm font-semibold text-accent-text">{FORMS[k].name}</p>
-                <h3 className="text-xl font-bold">{FORMS[k].nick}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed">“{FORMS[k].quote}”</p>
-                <p className="mt-auto pt-4 text-sm text-muted">{FORMS[k].when}</p>
+                <div className="flex min-w-0 flex-1 flex-col sm:mt-5">
+                  <p className="text-sm font-semibold text-accent-text">{FORMS[k].name}</p>
+                  <h3 className="text-lg font-bold sm:text-xl">{FORMS[k].nick}</h3>
+                  <p className="mt-1.5 text-pretty text-[15px] leading-relaxed sm:mt-2">“{FORMS[k].quote}”</p>
+                  <p className="mt-auto pt-3 text-sm text-muted sm:pt-4">{FORMS[k].when}</p>
+                </div>
               </li>
             ))}
           </ul>
         </section>
 
         {/* Why */}
-        <section id="why" className="border-t border-hairline bg-surface">
-          <div className="mx-auto grid max-w-6xl gap-12 px-5 py-28 md:grid-cols-[0.85fr_1.15fr]">
+        <section id="why" className="scroll-mt-20 border-t border-hairline bg-surface">
+          <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-[0.85fr_1.15fr] md:gap-12 md:py-28">
             <div>
               <h2 className="text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.15] tracking-tight">
                 รู้ว่าควรดูแล
@@ -254,7 +259,7 @@ export default function Landing() {
             </div>
             <ul className="divide-y divide-hairline rounded-card border border-hairline bg-bg" data-fx="rows">
               {COMPARE.map(([a, b]) => (
-                <li key={a} data-fx-item className="grid gap-3 p-6 sm:grid-cols-2 sm:gap-6">
+                <li key={a} data-fx-item className="grid gap-2.5 p-5 sm:grid-cols-2 sm:gap-6 sm:p-6">
                   <span className="flex items-start gap-2.5 text-muted">
                     <X className="mt-1 size-4 shrink-0" /> {a}
                   </span>
@@ -271,15 +276,15 @@ export default function Landing() {
         </section>
 
         {/* Close */}
-        <section data-fx="sheet" className="relative overflow-hidden bg-ink px-5 py-28 text-center text-white">
-          <Cat className="float mx-auto size-28 ring-8 ring-white/10" />
+        <section data-fx="sheet" className="relative overflow-hidden bg-ink px-5 py-20 text-center text-white md:py-28">
+          <Cat className="float mx-auto size-24 ring-8 ring-white/10 sm:size-28" />
           <p className="mx-auto mt-10 max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.2] tracking-tight">
             เริ่มดูแลตัวเองวันนี้
             <br />
             <span className="text-white/55">น้องแมวรออยู่นะ</span>
           </p>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
-            <Link href="/app/quiz" className="pill px-8 py-4 text-lg [--bg:var(--text)] [--text:#fff]">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-5 sm:mt-12">
+            <Link href="/app/quiz" className="pill whitespace-nowrap px-6 py-3.5 text-base [--bg:var(--text)] [--text:#fff] sm:px-8 sm:py-4 sm:text-lg">
               เริ่มทำแบบประเมิน <ArrowRight className="size-5" />
             </Link>
             <Link href="/app/demo" className="font-semibold text-white underline decoration-white/30 decoration-2 underline-offset-8 hover:decoration-white">

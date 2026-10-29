@@ -56,7 +56,7 @@ export function Ring({ value, level, size = 88, label }: { value: number; level:
           className="ring-in transition-[stroke-dashoffset] duration-700"
         />
       </svg>
-      <span className={`absolute inset-0 grid place-items-center text-xl font-bold tabular-nums ${LEVEL_TONE[level].text}`}>{value}</span>
+      <span className={`absolute inset-0 grid place-items-center text-xl font-bold leading-none tabular-nums ${LEVEL_TONE[level].text}`}>{value}</span>
     </div>
   );
 }
@@ -81,11 +81,11 @@ export function Disclaimer({ className = "" }: { className?: string }) {
 export const btn = {
   primary: "pill px-5 py-2.5 text-sm",
   ghost:
-    "inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-ink bg-bg px-5 py-2.5 text-sm font-semibold transition hover:bg-ink hover:text-white active:scale-[0.98]",
+    "inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-ink bg-bg px-5 py-2.5 text-sm font-semibold transition hover:bg-ink hover:text-white active:scale-[0.98] disabled:border-hairline disabled:bg-surface disabled:text-muted disabled:hover:bg-surface disabled:active:scale-100",
   quiet: "inline-flex items-center justify-center gap-2 rounded-full bg-surface px-4 py-2 text-sm font-medium transition hover:bg-surface-2",
 };
 
 /** Chip in PeelPlan's segmented style: outlined, ink-filled when on. */
 export function chip(on: boolean) {
-  return `rounded-full border px-4 py-2 text-sm transition ${on ? "border-ink bg-ink font-medium text-white" : "border-hairline bg-bg hover:border-ink/40"}`;
+  return `min-h-11 rounded-full border px-4 py-2 text-sm transition ${on ? "border-ink bg-ink font-medium text-white" : "border-hairline bg-bg hover:border-ink/40"}`;
 }
