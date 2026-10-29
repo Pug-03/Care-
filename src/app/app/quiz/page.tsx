@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { btn, PageHead } from "@/components/ui";
@@ -28,11 +28,27 @@ const EMPTY: Profile = {
 
 const STEPS = ["ข้อมูลพื้นฐาน", "การกินและการนอน", "ความเครียดและพฤติกรรมเสี่ยง"];
 
-function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
+/** A labelled question. Groups of buttons (`group`) get a group role instead of a <label>, which would forward clicks on the question text to the first option. */
+function Field({ label, hint, group = false, children }: { label: string; hint?: string; group?: boolean; children: ReactNode }) {
+  const id = useId();
+  const head = (
+    <>
+      <span id={id} className="text-sm font-medium">
+        {label}
+      </span>
+      {hint && <span className="ml-2 text-xs text-muted">{hint}</span>}
+    </>
+  );
+  if (group)
+    return (
+      <div role="group" aria-labelledby={id}>
+        {head}
+        <div className="mt-1.5">{children}</div>
+      </div>
+    );
   return (
     <label className="block">
-      <span className="text-sm font-medium">{label}</span>
-      {hint && <span className="ml-2 text-xs text-muted">{hint}</span>}
+      {head}
       <div className="mt-1.5">{children}</div>
     </label>
   );
@@ -129,7 +145,7 @@ function warningsOf(p: Profile) {
   return w;
 }
 
-export default function CheckPage() {
+export default function QuizPage() {
   const router = useRouter();
   const ready = useHydrated();
   const saved = useCare((s) => s.profile);
@@ -149,12 +165,12 @@ export default function CheckPage() {
   const submit = () => {
     if (warnings.length || !consent) return;
     setProfile({ ...p, name: p.name.trim() });
-    router.push("/app/analysis");
+    router.push("/app/result");
   };
 
   return (
     <div className="mx-auto max-w-2xl">
-      <PageHead title={STEPS[step]} sub="ตอบตามพฤติกรรมจริงในช่วง 1–3 เดือนที่ผ่านมา ยิ่งตรงความจริง ผลวิเคราะห์ยิ่งแม่นยำ" />
+      <PageHead feature="quiz" title={STEPS[step]} sub="Health Risk Quiz · ตอบตามพฤติกรรมจริงในช่วง 1–3 เดือนที่ผ่านมา ระบบจะใช้เกณฑ์ที่กำหนดไว้ล่วงหน้าประเมินปัจจัยเสี่ยงเบื้องต้นให้" />
       <p className="mb-2 text-sm text-muted">
         ขั้นที่ {step + 1} จาก {STEPS.length}
       </p>
@@ -181,7 +197,7 @@ export default function CheckPage() {
               <Field label="อายุ">
                 <Num value={p.age} onChange={(v) => set({ age: v ?? 0 })} min={10} max={100} unit="ปี" />
               </Field>
-              <Field label="เพศกำเนิด">
+              <Field group label="เพศกำเนิด">
                 <Choice
                   value={p.sex}
                   onChange={(sex) => set({ sex })}
@@ -238,13 +254,13 @@ export default function CheckPage() {
             <Field label="ออกกำลังกาย 30 นาทีขึ้นไป" hint="เดินเร็ว ปั่นจักรยาน วิ่ง เล่นกีฬา">
               <Slider value={p.exerciseDays} onChange={(exerciseDays) => set({ exerciseDays })} min={0} max={7} format={(v) => `${v} วัน/สัปดาห์`} />
             </Field>
-            <Field label="กินหวาน" hint="ชานม น้ำอัดลม ขนมหวาน">
+            <Field group label="กินหวาน" hint="ชานม น้ำอัดลม ขนมหวาน">
               <Choice value={p.sweet} options={FREQS} onChange={(sweet) => set({ sweet })} />
             </Field>
-            <Field label="กินเค็ม" hint="เติมน้ำปลา บะหมี่กึ่งสำเร็จรูป ของหมักดอง">
+            <Field group label="กินเค็ม" hint="เติมน้ำปลา บะหมี่กึ่งสำเร็จรูป ของหมักดอง">
               <Choice value={p.salty} options={FREQS} onChange={(salty) => set({ salty })} />
             </Field>
-            <Field label="กินมัน" hint="ของทอด กะทิ หนังสัตว์">
+            <Field group label="กินมัน" hint="ของทอด กะทิ หนังสัตว์">
               <Choice value={p.fatty} options={FREQS} onChange={(fatty) => set({ fatty })} />
             </Field>
             <Field label="ผักและผลไม้" hint="1 ส่วน ≈ ผักสุก 1 ทัพพี หรือผลไม้ 1 กำมือ">
@@ -261,7 +277,7 @@ export default function CheckPage() {
             <Field label="ระดับความเครียดโดยเฉลี่ย" hint="1 = สบาย ๆ, 10 = เครียดมาก">
               <Slider value={p.stress} onChange={(stress) => set({ stress })} min={1} max={10} format={(v) => `${v}/10`} />
             </Field>
-            <Field label="การสูบบุหรี่ / บุหรี่ไฟฟ้า">
+            <Field group label="การสูบบุหรี่ / บุหรี่ไฟฟ้า">
               <Choice<Smoking>
                 value={p.smoking}
                 onChange={(smoking) => set({ smoking })}
@@ -302,7 +318,7 @@ export default function CheckPage() {
             <span />
           )}
           <button type="submit" className={btn.primary} disabled={last && (warnings.length > 0 || !consent)}>
-            {last ? "ดูผลวิเคราะห์" : "ถัดไป"} <ArrowRight className="size-4" />
+            {last ? "ดูผลประเมิน" : "ถัดไป"} <ArrowRight className="size-4" />
           </button>
         </div>
       </form>

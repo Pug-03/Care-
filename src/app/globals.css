@@ -165,17 +165,7 @@ body {
   }
 }
 
-/* Scroll story: tall section with a pinned frame, only while ScrollTrigger drives it. */
-.journey[data-scrub] {
-  height: 340svh;
-}
-.journey[data-scrub] .journey-frame {
-  position: sticky;
-  top: 0;
-  min-height: 100svh;
-}
-
-/* Gentle bob for the robot and app icon. */
+/* Gentle bob for the cat and app icon. */
 @keyframes float {
   0%,
   100% {

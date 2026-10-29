@@ -56,12 +56,11 @@ export default function Care() {
   return (
     <>
       <PageHead
-        feature="care"
         says={
           <>
             สุขภาพดี เริ่มได้จาก
             <br />
-            การตรวจเช็กนะครับ
+            การตรวจเช็กนะ
           </>
         }
         title="ค้นหาสถานพยาบาล"

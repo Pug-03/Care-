@@ -13,8 +13,8 @@ const anuphan = Anuphan({
 const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: "italic", variable: "--font-instrument", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "CARE+ · เห็นสุขภาพในอนาคต ตั้งแต่วันนี้",
-  description: "CARE+ ใช้ AI วิเคราะห์ปัจจัยเสี่ยงโรคไม่ติดต่อเรื้อรัง (NCDs) และจำลองแนวโน้มสุขภาพ เพื่อให้เห็นผลของพฤติกรรมวันนี้ต่อสุขภาพในอนาคต",
+  title: "CARE+ · ดูแลสุขภาพไปกับน้องแมว",
+  description: "CARE+ ประเมินความเสี่ยงสุขภาพเบื้องต้น เปรียบเทียบทางเลือกด้วยข้อมูลที่มีแหล่งอ้างอิง ทำภารกิจสุขภาพรับ XP แล้วนำไปดูแลแมวเสมือนจริง",
 };
 
 export const viewport: Viewport = {

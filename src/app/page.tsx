@@ -1,42 +1,39 @@
 import Link from "next/link";
-import { ArrowRight, Check, CupSoda, Droplet, Footprints, HeartPulse, Moon, Salad, Scale, Smartphone, Sun, Wind, X, type LucideIcon } from "lucide-react";
-import { HeroLab } from "@/components/HeroLab";
-import { Logo, Robot } from "@/components/Logo";
-import { LandingRobotButton } from "@/components/LandingRobotButton";
-import { FutureJourney } from "@/components/motion/FutureJourney";
+import { ArrowRight, Brain, Check, CupSoda, Droplet, Footprints, HeartPulse, Moon, Salad, Scale, Smartphone, Wind, X, type LucideIcon } from "lucide-react";
+import { AppIcon, Cat, CatForm, Logo } from "@/components/Logo";
 import { ScrollFx } from "@/components/motion/ScrollFx";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { Tile, type FeatureKey } from "@/components/theme";
+import { FEATURE, Tile, type FeatureKey } from "@/components/theme";
 import { btn, Disclaimer } from "@/components/ui";
+import { FORMS, type Form } from "@/lib/pet";
 
-const STEPS: { key: FeatureKey; title: string; body: string }[] = [
-  { key: "chat", title: "เล่าให้ AI ฟัง", body: "การนอน อาหาร การออกกำลังกาย ความเครียด AI ถามต่อจนข้อมูลครบ" },
-  { key: "analysis", title: "เห็นปัจจัยเสี่ยง", body: "รู้ว่าพฤติกรรมไหนเพิ่มความเสี่ยงโรคไหน เรียงจากเรื่องที่ควรใส่ใจก่อน" },
-  { key: "simulate", title: "เทียบสองอนาคต", body: "ถ้าใช้ชีวิตแบบเดิม กับ ถ้าเริ่มปรับวันนี้ ห่างกันแค่ไหนใน 1–10 ปี" },
-  { key: "plan", title: "ทำทีละนิดทุกวัน", body: "เป้าหมายเล็กที่ทำได้จริง ติ๊กทุกวัน แล้ววิเคราะห์ซ้ำเพื่อดูผล" },
-  { key: "care", title: "ถึงเวลาพบแพทย์", body: "เมื่อควรตรวจเพิ่ม หาสถานพยาบาลใกล้คุณตามสิทธิที่ใช้ได้" },
+const STEPS: { key: FeatureKey; body: string }[] = [
+  { key: "quiz", body: "ตอบคำถามพฤติกรรมสุขภาพ ระบบใช้เกณฑ์ที่กำหนดไว้ล่วงหน้า แสดงปัจจัยเสี่ยงเบื้องต้นของคุณ" },
+  { key: "choice", body: "เทียบทางเลือกในการใช้ชีวิตแบบเห็นภาพ ด้วยข้อมูลสุขภาพที่มีแหล่งอ้างอิง" },
+  { key: "missions", body: "เลือกภารกิจเล็ก ๆ ประจำวัน ทำสำเร็จแล้วรับ XP" },
+  { key: "pet", body: "ใช้ XP แลกอาหารและไอเทม ดูแลแมวเสมือนจริงของคุณ" },
 ];
 
 const COMPARE: [string, string][] = [
-  ["บันทึกน้ำหนัก การนอน การออกกำลังกาย", "รวมข้อมูลสุขภาพและพฤติกรรมเพื่อวิเคราะห์เชิงลึก"],
-  ["แสดงข้อมูลย้อนหลังหรือสถิติ", "จำลองแนวโน้มสุขภาพในอนาคต"],
-  ["คำแนะนำแบบเดียวกันสำหรับทุกคน", "คำแนะนำเฉพาะตัว จากปัจจัยเสี่ยงของคุณเอง"],
-  ["ผู้ใช้ต้องตีความข้อมูลเอง", "เห็นผลลัพธ์ของการเปลี่ยนพฤติกรรมทันที"],
+  ["ประเมินเสร็จแล้วจบ ไม่รู้ต้องทำอะไรต่อ", "ผลประเมินพาไปสู่ทางเลือกและภารกิจที่ทำได้จริง"],
+  ["คำแนะนำลอย ๆ ไม่บอกที่มา", "เทียบทางเลือกด้วยข้อมูลที่มีแหล่งอ้างอิง"],
+  ["ตั้งใจได้ไม่กี่วันก็เลิก", "XP และน้องแมวชวนให้กลับมาดูแลตัวเองทุกวัน"],
+  ["บอกว่าคุณจะเป็นโรคอะไร", "ไม่วินิจฉัย ไม่ทำนายรายบุคคล ชี้แค่ปัจจัยเสี่ยงเบื้องต้น"],
 ];
 
 const HABITS_A: [LucideIcon, string][] = [
-  [Moon, "นอน 7 ชั่วโมง"],
-  [Footprints, "เดินเร็ว 15 นาทีหลังมื้อเย็น"],
+  [Moon, "เข้านอนก่อน 23:00"],
+  [Footprints, "เดินเร็ว 15 นาที"],
   [Salad, "ผักครึ่งจาน"],
   [Droplet, "น้ำเปล่า 8 แก้ว"],
   [CupSoda, "สั่งหวานน้อย"],
-  [Wind, "หายใจ 4-7-8"],
+  [Wind, "หายใจช้า ๆ 5 นาที"],
 ];
 const HABITS_B: [LucideIcon, string][] = [
   [HeartPulse, "วัดความดันเช้า–เย็น"],
   [Smartphone, "วางมือถือก่อนนอน 30 นาที"],
-  [Sun, "แดดเช้า 10 นาที"],
-  [Scale, "ชั่งน้ำหนักทุกสัปดาห์"],
+  [Brain, "พักสายตาทุกชั่วโมง"],
+  [Scale, "ชั่งน้ำหนักและจดไว้"],
   [Footprints, "ขึ้นบันไดแทนลิฟต์"],
   [Salad, "ต้ม นึ่ง แทนทอด"],
 ];
@@ -52,6 +49,7 @@ function HabitRow({ items, dir }: { items: [LucideIcon, string][]; dir: 1 | -1 }
         >
           <Icon className={`size-5 ${i % 4 === 1 ? "text-sky-300" : "text-accent"}`} strokeWidth={2} />
           {label}
+          <span className={`text-sm ${i % 4 === 1 ? "text-sky-300" : "text-accent-text"}`}>+XP</span>
         </span>
       ))}
     </div>
@@ -79,11 +77,11 @@ export default function Landing() {
         <div className="mx-auto flex h-18 max-w-6xl items-center justify-between gap-3 px-5">
           <Logo />
           <nav className="hidden items-center gap-8 text-[15px] text-muted md:flex" aria-label="หลัก">
-            <a href="#future" className="hover:text-ink">
-              จำลองอนาคต
-            </a>
             <a href="#how" className="hover:text-ink">
               ใช้งานอย่างไร
+            </a>
+            <a href="#cats" className="hover:text-ink">
+              น้องแมว
             </a>
             <a href="#why" className="hover:text-ink">
               ต่างจากแอปอื่น
@@ -96,29 +94,39 @@ export default function Landing() {
       </header>
 
       <main id="main">
-        {/* Hero: headline on the left, the working future chart on the right. */}
-        <section className="mx-auto grid max-w-6xl items-center gap-x-14 gap-y-20 px-5 pb-24 pt-12 md:grid-cols-[1fr_1.05fr] md:pt-20">
+        {/* Hero: headline on the left, the app icon cat with the loop around it on the right. */}
+        <section className="mx-auto grid max-w-6xl items-center gap-x-14 gap-y-16 px-5 pb-24 pt-12 md:grid-cols-[1fr_0.95fr] md:pt-20">
           <div className="rise">
             <h1 className="text-[clamp(2.75rem,7vw,5rem)] font-bold leading-[1.12] tracking-tight">
-              เห็นอนาคต
+              ดูแลสุขภาพ
               <br />
-              ก่อน<Scribble>สายเกินไป</Scribble>
+              ไปกับ<Scribble>น้องแมว</Scribble>
             </h1>
             <p className="mt-7 max-w-lg text-lg leading-relaxed text-muted sm:text-xl">
-              บอกพฤติกรรมวันนี้ แล้ว CARE+ จะวิเคราะห์ปัจจัยเสี่ยงโรคไม่ติดต่อเรื้อรัง และจำลองให้เห็นว่าอีก 10 ปีสุขภาพของคุณจะไปทางไหน
+              ประเมินความเสี่ยงสุขภาพเบื้องต้น เทียบทางเลือกด้วยข้อมูลที่มีแหล่งอ้างอิง ทำภารกิจเล็ก ๆ ทุกวัน แล้วเอา XP ไปเลี้ยงแมวของคุณ
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-5">
-              <Link href="/app/check" className="pill whitespace-nowrap px-6 py-3.5 text-base sm:px-8 sm:py-4 sm:text-lg">
-                ประเมินสุขภาพฟรี <ArrowRight className="size-5" />
+              <Link href="/app/quiz" className="pill whitespace-nowrap px-6 py-3.5 text-base sm:px-8 sm:py-4 sm:text-lg">
+                เริ่มทำแบบประเมิน <ArrowRight className="size-5" />
               </Link>
               <Link href="/app/demo" className="text-[15px] font-semibold underline decoration-hairline decoration-2 underline-offset-8 hover:decoration-ink">
-                ดูผลตัวอย่าง
+                ดูตัวอย่าง
               </Link>
             </div>
             <p className="mt-6 text-sm text-muted">3 นาที ไม่ต้องสมัครสมาชิก ข้อมูลอยู่ในเครื่องของคุณ</p>
           </div>
-          <div className="rise [animation-delay:150ms]">
-            <HeroLab />
+          <div className="rise relative mx-auto w-full max-w-md [animation-delay:150ms]" aria-hidden="true">
+            <AppIcon priority className="float mx-auto h-auto w-[78%]" />
+            <span className="absolute left-0 top-[8%] flex items-center gap-2 rounded-2xl border border-hairline bg-bg px-3.5 py-2.5 text-sm shadow-soft">
+              <span className="grid size-6 place-items-center rounded-full bg-accent text-white">
+                <Check className="size-3.5" strokeWidth={3} />
+              </span>
+              เดินเร็ว 15 นาที <b className="text-accent-text">+20 XP</b>
+            </span>
+            <span className="absolute -right-1 top-[46%] rounded-2xl border border-hairline bg-bg px-3.5 py-2.5 text-sm shadow-soft">
+              ปลานึ่ง <b>20 XP</b> <span className="text-muted">อิ่มท้อง +40</span>
+            </span>
+            <span className="absolute bottom-[4%] left-[6%] rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white shadow-soft">ทำต่อเนื่อง 3 วัน</span>
           </div>
         </section>
 
@@ -150,48 +158,38 @@ export default function Landing() {
           <p className="mt-6 text-xs text-muted">ที่มา: WHO Thailand, NCDs Investment Case</p>
         </section>
 
-        <div id="future">
-          <FutureJourney />
-        </div>
-
-        {/* Habit band */}
-        <section className="overflow-hidden border-y border-hairline py-16" aria-label="ตัวอย่างเป้าหมายเล็ก ๆ ที่ CARE+ แนะนำ">
-          <div className="space-y-4">
-            <HabitRow items={HABITS_A} dir={1} />
-            <HabitRow items={HABITS_B} dir={-1} />
-          </div>
-        </section>
-
-        {/* How it works */}
+        {/* How it works: the four components as one path, looping back to new missions. */}
         <section id="how" className="mx-auto max-w-6xl px-5 py-28">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <h2 className="text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.15] tracking-tight">
-              จากข้อมูลสุขภาพ
+              4 ขั้นตอน
               <br />
-              <span className="text-muted">สู่สิ่งที่ทำได้จริง</span>
+              <span className="text-muted">ที่เชื่อมกันเป็นวงจร</span>
             </h2>
             <Link href="/app" className={btn.ghost}>
               ลองใช้แอป <ArrowRight className="size-4" />
             </Link>
           </div>
-          {/* One ruled line with five stops, drawn in the chart's own language, looping back to analysis. */}
           <div className="mt-16" data-fx="steps">
-            <ol className="relative grid gap-10 pl-10 md:grid-cols-5 md:gap-6 md:pl-0">
+            <ol className="relative grid gap-10 pl-10 md:grid-cols-4 md:gap-8 md:pl-0">
               <span data-fx-line className="absolute bottom-2 left-[1.375rem] top-2 w-0.5 origin-top bg-ink md:hidden" aria-hidden="true" />
               <span data-fx-line className="absolute left-0 right-0 top-[1.375rem] hidden h-0.5 origin-left bg-ink md:block" aria-hidden="true" />
-              {STEPS.map((s) => (
+              {STEPS.map((s, i) => (
                 <li key={s.key} data-fx-item className="relative">
                   <span className="absolute -left-10 top-0 md:static">
                     <span className="relative z-10 block w-fit rounded-xl ring-8 ring-bg">
                       <Tile feature={s.key} />
                     </span>
                   </span>
-                  <h3 className="text-lg font-bold md:mt-6">{s.title}</h3>
+                  <p className="text-sm font-medium text-muted md:mt-6">
+                    {i + 1}. {FEATURE[s.key].en}
+                  </p>
+                  <h3 className="text-lg font-bold">{FEATURE[s.key].title}</h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-muted">{s.body}</p>
                 </li>
               ))}
             </ol>
-            <div className="mt-10 flex items-center gap-4 md:pl-[20%]">
+            <div className="mt-10 flex items-center gap-4 md:pl-[50%]">
               <svg viewBox="0 0 120 40" className="h-10 w-28 shrink-0 text-accent" aria-hidden="true">
                 <path
                   d="M116 4C116 30 80 36 40 32 20 30 8 24 4 14"
@@ -204,10 +202,41 @@ export default function Landing() {
                 <path d="M1 22 4 13l9 4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <p className="text-lg">
-                แล้ววนกลับไปวิเคราะห์ซ้ำ <span className="text-muted">ไม่ใช่การประเมินครั้งเดียว แต่เป็นวงจรที่ติดตามคุณต่อเนื่อง</span>
+                แล้วกลับมาทำภารกิจใหม่ทุกวัน <span className="text-muted">ดูแลตัวเองต่อเนื่อง น้องแมวก็เติบโตไปด้วยกัน</span>
               </p>
             </div>
           </div>
+        </section>
+
+        {/* Mission band */}
+        <section className="overflow-hidden border-y border-hairline py-16">
+          <div className="space-y-4">
+            <HabitRow items={HABITS_A} dir={1} />
+            <HabitRow items={HABITS_B} dir={-1} />
+          </div>
+        </section>
+
+        {/* The four cats */}
+        <section id="cats" className="mx-auto max-w-6xl px-5 py-28">
+          <h2 className="text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.15] tracking-tight">
+            เลี้ยงแมว
+            <br />
+            <span className="text-muted">แต่ได้ดูแลตัวเอง</span>
+          </h2>
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">น้องแมวมี 4 ร่าง และจะเปลี่ยนไปตามพฤติกรรมสุขภาพของคุณ</p>
+          <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-fx="stagger">
+            {(Object.keys(FORMS) as Form[]).map((k) => (
+              <li key={k} data-fx-item className="flex flex-col rounded-card border border-hairline bg-bg p-5">
+                <div className="grid h-48 place-items-center rounded-2xl bg-accent-soft/50">
+                  <CatForm form={k} className="h-40 w-auto max-w-full" />
+                </div>
+                <p className="mt-5 text-sm font-semibold text-accent-text">{FORMS[k].name}</p>
+                <h3 className="text-xl font-bold">{FORMS[k].nick}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed">“{FORMS[k].quote}”</p>
+                <p className="mt-auto pt-4 text-sm text-muted">{FORMS[k].when}</p>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* Why */}
@@ -215,12 +244,12 @@ export default function Landing() {
           <div className="mx-auto grid max-w-6xl gap-12 px-5 py-28 md:grid-cols-[0.85fr_1.15fr]">
             <div>
               <h2 className="text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.15] tracking-tight">
-                แอปทั่วไปบอกว่า
+                รู้ว่าควรดูแล
                 <br />
-                <span className="text-muted">วันนี้คุณเป็นอย่างไร</span>
+                <span className="text-muted">แต่ไม่รู้จะเริ่มยังไง</span>
               </h2>
               <p className="mt-6 max-w-sm text-lg leading-relaxed text-muted">
-                CARE+ บอกว่า <span className="font-semibold text-ink">อนาคตคุณจะเป็นอย่างไร</span> และสิ่งที่เปลี่ยนได้ตั้งแต่วันนี้
+                CARE+ พาจาก <span className="font-semibold text-ink">ผลประเมิน</span> ไปสู่ <span className="font-semibold text-ink">สิ่งที่ทำได้วันนี้</span> และมีเพื่อนตัวน้อยคอยรอให้กลับมา
               </p>
             </div>
             <ul className="divide-y divide-hairline rounded-card border border-hairline bg-bg" data-fx="rows">
@@ -243,18 +272,18 @@ export default function Landing() {
 
         {/* Close */}
         <section data-fx="sheet" className="relative overflow-hidden bg-ink px-5 py-28 text-center text-white">
-          <Robot className="float mx-auto size-28 ring-8 ring-white/10" />
+          <Cat className="float mx-auto size-28 ring-8 ring-white/10" />
           <p className="mx-auto mt-10 max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.2] tracking-tight">
-            ทำให้คนเห็นผลของสุขภาพวันนี้
+            เริ่มดูแลตัวเองวันนี้
             <br />
-            <span className="text-white/55">เพื่อเริ่มเปลี่ยนแปลง<span className="whitespace-nowrap">ก่อนที่จะสายเกินไป</span></span>
+            <span className="text-white/55">น้องแมวรออยู่นะ</span>
           </p>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
-            <Link href="/app/check" className="pill px-8 py-4 text-lg [--bg:var(--text)] [--text:#fff]">
-              เริ่มประเมินสุขภาพ <ArrowRight className="size-5" />
+            <Link href="/app/quiz" className="pill px-8 py-4 text-lg [--bg:var(--text)] [--text:#fff]">
+              เริ่มทำแบบประเมิน <ArrowRight className="size-5" />
             </Link>
-            <Link href="/app/chat" className="font-semibold text-white underline decoration-white/30 decoration-2 underline-offset-8 hover:decoration-white">
-              คุยกับน้อง CARE+
+            <Link href="/app/demo" className="font-semibold text-white underline decoration-white/30 decoration-2 underline-offset-8 hover:decoration-white">
+              ดูตัวอย่าง
             </Link>
           </div>
         </section>
@@ -269,7 +298,6 @@ export default function Landing() {
           <Disclaimer className="max-w-2xl md:justify-self-end" />
         </div>
       </footer>
-      <LandingRobotButton />
     </>
   );
 }

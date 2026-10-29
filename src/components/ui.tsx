@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { Level } from "@/lib/health";
-import { RobotSays } from "./Logo";
+import { CatSays } from "./Logo";
 import { Tile, type FeatureKey } from "./theme";
 
 export const LEVEL_TONE: Record<Level, { text: string; bg: string; stroke: string }> = {
@@ -18,7 +18,7 @@ export function Card({ children, className = "" }: { children: ReactNode; classN
   return <section className={`rounded-card border border-hairline bg-bg p-5 sm:p-6 ${className}`}>{children}</section>;
 }
 
-/** Screen title: big ink headline, grey line under it, the feature's tile, and the robot chiming in. */
+/** Screen title: big ink headline, grey line under it, the feature's tile, and the cat chiming in. */
 export function PageHead({ title, sub, feature, says }: { title: string; sub?: string; feature?: FeatureKey; says?: ReactNode }) {
   return (
     <header className="mb-8 flex items-end justify-between gap-6">
@@ -29,7 +29,7 @@ export function PageHead({ title, sub, feature, says }: { title: string; sub?: s
           {sub && <p className="mt-2 max-w-2xl text-muted">{sub}</p>}
         </div>
       </div>
-      {says && <RobotSays className="hidden shrink-0 md:flex">{says}</RobotSays>}
+      {says && <CatSays className="hidden shrink-0 md:flex">{says}</CatSays>}
     </header>
   );
 }
@@ -56,7 +56,7 @@ export function Ring({ value, level, size = 88, label }: { value: number; level:
           className="ring-in transition-[stroke-dashoffset] duration-700"
         />
       </svg>
-      <span className={`absolute inset-0 grid place-items-center text-xl font-bold tabular-nums ${LEVEL_TONE[level].text}`}>{value}%</span>
+      <span className={`absolute inset-0 grid place-items-center text-xl font-bold tabular-nums ${LEVEL_TONE[level].text}`}>{value}</span>
     </div>
   );
 }

@@ -18,11 +18,11 @@ export function NeedProfile({ children, what }: { children: (p: Profile) => Reac
         <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-accent-soft text-accent-text">
           <ClipboardList className="size-6" />
         </span>
-        <h2 className="mt-4 text-lg font-semibold">กรอกข้อมูลสุขภาพก่อน เพื่อ{what}</h2>
+        <h2 className="mt-4 text-lg font-semibold">ทำแบบประเมินก่อน เพื่อ{what}</h2>
         <p className="mx-auto mt-1 max-w-md text-sm text-muted">ใช้เวลาประมาณ 3 นาที ข้อมูลเก็บไว้ในเบราว์เซอร์ของคุณเท่านั้น</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link href="/app/check" className={btn.primary}>
-            กรอกข้อมูลสุขภาพ
+          <Link href="/app/quiz" className={btn.primary}>
+            เริ่มทำแบบประเมิน
           </Link>
           <Link href="/app/demo" className={btn.ghost}>
             ใช้ข้อมูลตัวอย่าง

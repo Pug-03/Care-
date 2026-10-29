@@ -18,19 +18,19 @@ Close the gap between "knowing I should be healthy" and "seeing why it matters a
 
 ## Positioning
 
-Other health apps record data and show history. CARE+ analyses behaviour against NCD risk, simulates the future with and without change, gives personalised small actions, and routes to care when needed.
+Other health apps record data and show history. CARE+ links four parts into one loop: a Health Risk Quiz, Health Choice comparisons backed by cited sources (never a personal prediction), daily Health Missions that pay XP, and a virtual cat the user cares for with that XP.
 
 ## Principles
 
 1. Never diagnose. Say "พบปัจจัยเสี่ยง" or "ควรตรวจเพิ่มเติม", and send people to a doctor when warranted.
-2. Make change visible: every recommendation links back to a factor and forward to a simulated outcome.
+2. Make change visible: every mission links back to a quiz factor, and every choice cites its source.
 3. Small, doable actions over generic advice.
 4. Private by default: collect only what's needed, with consent, user-controlled.
 5. Simple enough for older users.
 
 ## Brand
 
-Name CARE+. The user's binding direction: look and feel like their PeelPlan project. White ground, near-black ink, grey second voice, hairline borders, one accent (CARE+ blue from the app icon) for the primary pill, the hand-drawn underline and the "if you change" line. Colour per feature only in small pastel icon squares. The CARE+ robot from the app icon is prominent across the app (guide, chat avatar, floating chat button). No emoji, no gradients, no glass. Anuphan for Thai and Latin. Light theme only. WCAG AA, reduced motion respected.
+Name CARE+. The user's binding direction: look and feel like their PeelPlan project. White ground, near-black ink, grey second voice, hairline borders, one accent (CARE+ blue from the app icon) for the primary pill, the hand-drawn underline and the "if you change" line. Colour per feature only in small pastel icon squares. The CARE+ cat (grey-and-white kitten with a sprout, from the app icon) is the mascot across the app, with four characters: Sprout, Cloud, Cozy, Glow. No AI chat. No emoji, no gradients, no glass. Anuphan for Thai and Latin. Light theme only. WCAG AA, reduced motion respected.
 
 ## Evidence on hand
 

@@ -1,14 +1,41 @@
-import { Activity, Hospital, MessageCircle, Sparkles, Target, type LucideIcon } from "lucide-react";
+import { Cat, ClipboardCheck, Scale, Target, type LucideIcon } from "lucide-react";
 
-/** The five CARE+ features. Colour stays in the small icon square, as in PeelPlan; everything else is ink on white. */
-export type FeatureKey = "chat" | "analysis" | "simulate" | "plan" | "care";
+/** The four CARE+ components, in the order the user goes through them. Colour stays in the small icon square, as in PeelPlan; everything else is ink on white. */
+export type FeatureKey = "quiz" | "choice" | "missions" | "pet";
 
-export const FEATURE: Record<FeatureKey, { title: string; body: string; href: string; icon: LucideIcon; tile: string }> = {
-  chat: { title: "คุยกับ AI", body: "บอกอาการและพฤติกรรมสุขภาพของคุณได้เลย", href: "/app/chat", icon: MessageCircle, tile: "bg-sky-100" },
-  analysis: { title: "AI วิเคราะห์", body: "ปัจจัยเสี่ยงและแนวโน้มสุขภาพเบื้องต้น", href: "/app/analysis", icon: Activity, tile: "bg-violet-100" },
-  simulate: { title: "จำลองอนาคต", body: "ถ้าใช้ชีวิตแบบเดิม กับ ถ้าเริ่มปรับวันนี้", href: "/app/simulate", icon: Sparkles, tile: "bg-emerald-100" },
-  plan: { title: "แนะนำสิ่งที่ทำได้จริง", body: "เป้าหมายเล็ก ๆ ที่ทำได้ทุกวัน", href: "/app/plan", icon: Target, tile: "bg-amber-100" },
-  care: { title: "ถ้าควรพบแพทย์", body: "สถานพยาบาลใกล้คุณและสิทธิการรักษา", href: "/app/care", icon: Hospital, tile: "bg-rose-100" },
+export const FEATURE: Record<FeatureKey, { title: string; en: string; body: string; href: string; icon: LucideIcon; tile: string }> = {
+  quiz: {
+    title: "แบบประเมินความเสี่ยง",
+    en: "Health Risk Quiz",
+    body: "ตอบคำถามพฤติกรรมสุขภาพ แล้วดูปัจจัยเสี่ยงเบื้องต้นของตัวเอง",
+    href: "/app/quiz",
+    icon: ClipboardCheck,
+    tile: "bg-violet-100",
+  },
+  choice: {
+    title: "เปรียบเทียบทางเลือก",
+    en: "Health Choice",
+    body: "เทียบทางเลือกในการใช้ชีวิต ด้วยข้อมูลที่มีแหล่งอ้างอิง",
+    href: "/app/choice",
+    icon: Scale,
+    tile: "bg-emerald-100",
+  },
+  missions: {
+    title: "ภารกิจสุขภาพ",
+    en: "Health Missions",
+    body: "ภารกิจเล็ก ๆ ประจำวัน ทำสำเร็จแล้วได้ XP",
+    href: "/app/missions",
+    icon: Target,
+    tile: "bg-amber-100",
+  },
+  pet: {
+    title: "น้องแมว",
+    en: "Virtual Pet",
+    body: "ใช้ XP แลกอาหารและไอเทม ดูแลแมวของคุณ",
+    href: "/app/pet",
+    icon: Cat,
+    tile: "bg-sky-100",
+  },
 };
 
 export function Tile({ feature, size = "md" }: { feature: FeatureKey; size?: "sm" | "md" | "lg" }) {
