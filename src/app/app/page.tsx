@@ -42,12 +42,12 @@ export default function Home() {
     <div className="stagger space-y-6">
       <header className="flex items-end justify-between gap-6">
         <div>
-          <p className="text-sm text-muted">{date}</p>
-          <h1 className="mt-2 text-[clamp(2rem,5vw,3rem)] font-bold leading-[1.15] tracking-tight">
+          <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold leading-[1.15] tracking-tight">
             สวัสดี{profile?.name ? ` ${profile.name}` : ""}
             <br />
             <span className="text-muted">วันนี้ดูแลตัวเองแล้วหรือยัง</span>
           </h1>
+          <p className="mt-3 text-sm text-muted">{date}</p>
         </div>
         <RobotSays className="hidden md:flex" size="size-24">
           {!a ? "เริ่มจากประเมินสุขภาพ 3 นาทีกันครับ" : top ? `วันนี้ลองดูเรื่อง${top.label}กันนะครับ` : "ทุกอย่างดูดีมากครับ รักษาไว้นะ"}

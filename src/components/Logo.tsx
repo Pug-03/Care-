@@ -16,7 +16,7 @@ export function Logo({ href = "/", className = "" }: { href?: string; className?
   return (
     <Link href={href} className={`inline-flex items-center gap-2.5 ${className}`} aria-label="CARE+ หน้าแรก">
       <Mark />
-      <span className="text-xl font-bold tracking-tight">
+      <span className="text-xl font-bold tracking-tight max-[300px]:sr-only">
         CARE<span className="text-accent">+</span>
       </span>
     </Link>
@@ -42,13 +42,13 @@ export function RobotSays({ children, className = "", size = "size-14" }: { chil
   );
 }
 
-/** Round robot button fixed to the corner, the way PeelPlan keeps its sticker logo within reach. Opens the chat. Sits above the app's mobile tab bar when there is one. */
-export function RobotButton({ aboveTabBar = false }: { aboveTabBar?: boolean }) {
+/** Round robot button fixed to the corner, the way PeelPlan keeps its sticker logo within reach. Opens the chat. In the app it shows on desktop only; phones already have the chat tab. */
+export function RobotButton({ desktopOnly = false }: { desktopOnly?: boolean }) {
   return (
     <Link
       href="/app/chat"
       aria-label="คุยกับน้อง CARE+"
-      className={`group fixed ${aboveTabBar ? "bottom-[calc(env(safe-area-inset-bottom,0px)+5.5rem)]" : "bottom-[calc(env(safe-area-inset-bottom,0px)+1.25rem)]"} right-4 z-40 grid size-16 place-items-center rounded-full bg-white shadow-[0_8px_28px_rgb(11_11_15/0.16)] transition hover:-translate-y-1 lg:bottom-8 lg:right-8`}
+      className={`group fixed ${desktopOnly ? "hidden lg:grid" : "grid"} bottom-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] right-4 z-40 size-16 place-items-center rounded-full bg-white shadow-[0_8px_28px_rgb(11_11_15/0.16)] transition hover:-translate-y-1 lg:bottom-8 lg:right-8`}
     >
       <Robot className="size-14 transition group-hover:rotate-[-6deg]" />
       <span className="absolute -top-1 right-0 size-3.5 rounded-full border-2 border-white bg-accent" aria-hidden="true" />

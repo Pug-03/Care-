@@ -66,31 +66,34 @@ function Plan({ p }: { p: Profile }) {
     <div className="stagger space-y-6">
       <div className="grid gap-4 sm:grid-cols-[1fr_1.2fr]">
         <Card>
-          <p className="text-sm text-muted">วันนี้</p>
-          <p className="mt-1 text-3xl font-semibold tabular-nums">
-            {count}
-            <span className="text-lg text-muted">/{plan.length}</span>
-          </p>
-          <p className="text-sm text-muted">เป้าหมายที่ทำแล้ว</p>
+          <h2 className="text-2xl font-bold tracking-tight">
+            ทำแล้ว <span className="tabular-nums">{count}</span>
+            <span className="text-muted"> จาก {plan.length} ข้อ</span>
+          </h2>
+          <p className="mt-1 text-sm text-muted">ติ๊กเมื่อทำเสร็จ ข้อมูลจะเก็บเป็นประวัติรายวัน</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-surface-2">
             <div className="grow-x h-full rounded-full bg-ink transition-[width] duration-500" style={{ width: `${(count / plan.length) * 100}%` }} />
           </div>
         </Card>
         <Card>
-          <p className="text-sm text-muted">7 วันที่ผ่านมา</p>
-          <ol className="mt-3 flex justify-between gap-2">
-            {week.map(({ d, ratio }) => (
-              <li key={d.toISOString()} className="flex flex-1 flex-col items-center gap-1.5">
-                <span
-                  className="relative h-16 w-full max-w-8 overflow-hidden rounded-lg bg-surface-2"
-                  aria-label={`${d.toLocaleDateString("th-TH", { weekday: "long" })} ${Math.round(ratio * 100)}%`}
-                >
-                  <span className="absolute inset-x-0 bottom-0 rounded-lg bg-accent transition-[height]" style={{ height: `${ratio * 100}%` }} />
-                </span>
-                <span className="text-[11px] text-muted">{d.toLocaleDateString("th-TH", { weekday: "narrow" })}</span>
-              </li>
-            ))}
-          </ol>
+          <h2 className="font-semibold">7 วันที่ผ่านมา</h2>
+          {week.every((w) => w.ratio === 0) ? (
+            <p className="mt-3 text-sm leading-relaxed text-muted">ยังไม่มีประวัติ ลองติ๊กเป้าหมายข้อแรกของวันนี้ แล้วแถบความคืบหน้าของแต่ละวันจะขึ้นที่นี่</p>
+          ) : (
+            <ol className="mt-3 flex justify-between gap-2">
+              {week.map(({ d, ratio }) => (
+                <li key={d.toISOString()} className="flex flex-1 flex-col items-center gap-1.5">
+                  <span
+                    className="relative h-16 w-full max-w-8 overflow-hidden rounded-lg bg-surface-2"
+                    aria-label={`${d.toLocaleDateString("th-TH", { weekday: "long" })} ${Math.round(ratio * 100)}%`}
+                  >
+                    <span className="absolute inset-x-0 bottom-0 rounded-lg bg-accent transition-[height]" style={{ height: `${ratio * 100}%` }} />
+                  </span>
+                  <span className="text-[11px] text-muted">{d.toLocaleDateString("th-TH", { weekday: "narrow" })}</span>
+                </li>
+              ))}
+            </ol>
+          )}
         </Card>
       </div>
 

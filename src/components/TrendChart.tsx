@@ -105,6 +105,9 @@ export function TrendChart({
           className={animate ? "draw" : undefined}
         />
         <circle r="5" style={dot(tip(current))} className={animate ? "dot-in" : undefined} fill="var(--text)" stroke="var(--bg)" strokeWidth="2" />
+        {animate && (
+          <circle key={improved[last].overall} r="5" style={dot(tip(improved))} className="tip-ping" fill="none" stroke="var(--accent)" strokeWidth="2" />
+        )}
         <circle r="5" style={dot(tip(improved))} className={animate ? "dot-in" : undefined} fill="var(--accent)" stroke="var(--bg)" strokeWidth="2" />
       </svg>
       <figcaption className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">

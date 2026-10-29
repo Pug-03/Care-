@@ -46,16 +46,17 @@ export default function Analysis() {
           const watch = factors.filter((f) => f.level !== "good").length;
           return (
             <div className="stagger space-y-6">
-              <Card className={`${LEVEL_TONE[a.overallLevel].bg} border-transparent`}>
-                <div className="flex items-center gap-5">
-                  <Ring value={a.overall} level={a.overallLevel} size={96} label="ความเสี่ยงโดยรวม" />
+              <Card>
+                <div className="flex items-center justify-between gap-6">
                   <div>
-                    <p className="text-sm text-muted">ความเสี่ยงโดยรวม</p>
-                    <p className={`text-2xl font-semibold ${LEVEL_TONE[a.overallLevel].text}`}>{OVERALL_LABEL[a.overallLevel]}</p>
-                    <p className="mt-1 text-sm text-muted">
-                      พบ {watch} ปัจจัยที่ควรใส่ใจ จากข้อมูลทั้งหมด {factors.length} ด้าน
+                    <h2 className="text-2xl font-bold leading-snug tracking-tight sm:text-3xl">
+                      ตอนนี้คุณ<span className={LEVEL_TONE[a.overallLevel].text}>{OVERALL_LABEL[a.overallLevel]}</span>
+                    </h2>
+                    <p className="mt-2 text-muted">
+                      พบ {watch} เรื่องที่ควรใส่ใจ จากข้อมูลทั้งหมด {factors.length} ด้าน
                     </p>
                   </div>
+                  <Ring value={a.overall} level={a.overallLevel} size={88} label="ความเสี่ยงโดยรวม" />
                 </div>
               </Card>
 

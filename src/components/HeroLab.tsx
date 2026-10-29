@@ -28,10 +28,10 @@ export function HeroLab() {
   const toggle = (id: string) => setOn((xs) => (xs.includes(id) ? xs.filter((x) => x !== id) : [...xs, id]));
 
   return (
-    <div className="relative">
+    <div className="relative isolate">
       <div className="grid-paper pointer-events-none absolute -inset-x-4 -inset-y-10 -z-10 sm:-inset-10" aria-hidden="true" />
 
-      <div className="relative mt-10 rounded-[1.75rem] border border-hairline bg-bg p-5 pt-6 shadow-[0_24px_60px_rgb(11_11_15/0.10)] sm:mt-0 sm:p-7">
+      <div data-tilt className="relative mt-10 rounded-[1.75rem] border border-hairline bg-bg p-5 pt-6 shadow-[0_24px_60px_rgb(11_11_15/0.10)] sm:mt-0 sm:p-7">
         <div className="absolute -top-14 right-3 sm:-right-6 sm:-top-12">
           <div className="flex items-end gap-2">
             <p

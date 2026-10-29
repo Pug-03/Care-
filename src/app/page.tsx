@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Check, CupSoda, Droplet, Footprints, HeartPulse, Moon, Salad, Scale, Smartphone, Sun, Wind, X, type LucideIcon } from "lucide-react";
 import { HeroLab } from "@/components/HeroLab";
-import { Logo, Robot, RobotButton } from "@/components/Logo";
+import { Logo, Robot } from "@/components/Logo";
+import { LandingRobotButton } from "@/components/LandingRobotButton";
 import { FutureJourney } from "@/components/motion/FutureJourney";
 import { ScrollFx } from "@/components/motion/ScrollFx";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
@@ -75,7 +76,7 @@ export default function Landing() {
       <SmoothScroll />
       <ScrollFx />
       <header className="sticky top-[env(safe-area-inset-top,0px)] z-40 bg-bg/85 backdrop-blur">
-        <div className="mx-auto flex h-18 max-w-6xl items-center justify-between px-5">
+        <div className="mx-auto flex h-18 max-w-6xl items-center justify-between gap-3 px-5">
           <Logo />
           <nav className="hidden items-center gap-8 text-[15px] text-muted md:flex" aria-label="หลัก">
             <a href="#future" className="hover:text-ink">
@@ -88,7 +89,7 @@ export default function Landing() {
               ต่างจากแอปอื่น
             </a>
           </nav>
-          <Link href="/app" className={`${btn.ghost} px-4 py-2`}>
+          <Link href="/app" className={`${btn.ghost} whitespace-nowrap px-3.5 py-1.5 text-[13px] sm:px-4 sm:py-2 sm:text-sm`}>
             เข้าสู่แอป
           </Link>
         </div>
@@ -107,7 +108,7 @@ export default function Landing() {
               บอกพฤติกรรมวันนี้ แล้ว CARE+ จะวิเคราะห์ปัจจัยเสี่ยงโรคไม่ติดต่อเรื้อรัง และจำลองให้เห็นว่าอีก 10 ปีสุขภาพของคุณจะไปทางไหน
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-5">
-              <Link href="/app/check" className="pill px-8 py-4 text-lg">
+              <Link href="/app/check" className="pill whitespace-nowrap px-6 py-3.5 text-base sm:px-8 sm:py-4 sm:text-lg">
                 ประเมินสุขภาพฟรี <ArrowRight className="size-5" />
               </Link>
               <Link href="/app/demo" className="text-[15px] font-semibold underline decoration-hairline decoration-2 underline-offset-8 hover:decoration-ink">
@@ -173,22 +174,40 @@ export default function Landing() {
               ลองใช้แอป <ArrowRight className="size-4" />
             </Link>
           </div>
-          <ol className="relative mt-14 grid gap-4 md:grid-cols-5" data-fx="steps">
-            <span data-fx-line className="absolute left-0 right-0 top-[2.15rem] hidden h-px origin-left bg-ink/15 md:block" aria-hidden="true" />
-            {STEPS.map((s, i) => (
-              <li key={s.key} data-fx-item className="relative rounded-card border border-hairline bg-bg p-6">
-                <div className="flex items-start justify-between">
-                  <Tile feature={s.key} />
-                  <span className="text-sm tabular-nums text-muted">0{i + 1}</span>
-                </div>
-                <h3 className="mt-8 text-lg font-bold">{s.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted">{s.body}</p>
-              </li>
-            ))}
-          </ol>
-          <p className="mt-8 text-center text-muted">
-            แล้ววนกลับไปวิเคราะห์ซ้ำ <span className="text-ink">ไม่ใช่การประเมินครั้งเดียว แต่เป็นวงจรที่ติดตามคุณต่อเนื่อง</span>
-          </p>
+          {/* One ruled line with five stops, drawn in the chart's own language, looping back to analysis. */}
+          <div className="mt-16" data-fx="steps">
+            <ol className="relative grid gap-10 pl-10 md:grid-cols-5 md:gap-6 md:pl-0">
+              <span data-fx-line className="absolute bottom-2 left-[1.375rem] top-2 w-0.5 origin-top bg-ink md:hidden" aria-hidden="true" />
+              <span data-fx-line className="absolute left-0 right-0 top-[1.375rem] hidden h-0.5 origin-left bg-ink md:block" aria-hidden="true" />
+              {STEPS.map((s) => (
+                <li key={s.key} data-fx-item className="relative">
+                  <span className="absolute -left-10 top-0 md:static">
+                    <span className="relative z-10 block w-fit rounded-xl ring-8 ring-bg">
+                      <Tile feature={s.key} />
+                    </span>
+                  </span>
+                  <h3 className="text-lg font-bold md:mt-6">{s.title}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-muted">{s.body}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="mt-10 flex items-center gap-4 md:pl-[20%]">
+              <svg viewBox="0 0 120 40" className="h-10 w-28 shrink-0 text-accent" aria-hidden="true">
+                <path
+                  d="M116 4C116 30 80 36 40 32 20 30 8 24 4 14"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeDasharray="5 6"
+                />
+                <path d="M1 22 4 13l9 4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <p className="text-lg">
+                แล้ววนกลับไปวิเคราะห์ซ้ำ <span className="text-muted">ไม่ใช่การประเมินครั้งเดียว แต่เป็นวงจรที่ติดตามคุณต่อเนื่อง</span>
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* Why */}
@@ -228,7 +247,7 @@ export default function Landing() {
           <p className="mx-auto mt-10 max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.2] tracking-tight">
             ทำให้คนเห็นผลของสุขภาพวันนี้
             <br />
-            <span className="text-white/55">เพื่อเริ่มเปลี่ยนแปลงก่อนที่จะสายเกินไป</span>
+            <span className="text-white/55">เพื่อเริ่มเปลี่ยนแปลง<span className="whitespace-nowrap">ก่อนที่จะสายเกินไป</span></span>
           </p>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
             <Link href="/app/check" className="pill px-8 py-4 text-lg [--bg:var(--text)] [--text:#fff]">
@@ -250,7 +269,7 @@ export default function Landing() {
           <Disclaimer className="max-w-2xl md:justify-self-end" />
         </div>
       </footer>
-      <RobotButton />
+      <LandingRobotButton />
     </>
   );
 }

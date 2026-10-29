@@ -66,7 +66,7 @@ export function AppNav() {
         ))}
       </nav>
 
-      {!path.startsWith("/app/chat") && <RobotButton aboveTabBar />}
+      {!path.startsWith("/app/chat") && <RobotButton desktopOnly />}
     </>
   );
 }

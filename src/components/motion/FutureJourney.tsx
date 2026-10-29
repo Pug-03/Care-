@@ -5,16 +5,20 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Robot } from "@/components/Logo";
 import { TrendChart } from "@/components/TrendChart";
-import { SAMPLE_PROFILE } from "@/lib/health";
-import { simulate, suggestedChanges } from "@/lib/simulate";
+import type { Behavior } from "@/lib/health";
+import { LEVERS, PERSONAS } from "@/lib/personas";
+import { simulate } from "@/lib/simulate";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const YEARS = 10;
-const sim = simulate(SAMPLE_PROFILE, suggestedChanges(SAMPLE_PROFILE), YEARS);
+// A different person from the hero, with every habit switched on, so the two charts never disagree about the same case.
+const PERSON = PERSONAS.find((p) => p.id === "office")!;
+const CHANGES = LEVERS.reduce<Partial<Behavior>>((acc, l) => ({ ...acc, ...l.apply(PERSON.profile) }), {});
+const sim = simulate(PERSON.profile, CHANGES, YEARS);
 
 const STAGES = [
-  { at: 0, title: "จุดเริ่มต้นเดียวกัน", body: "นอนวันละ 5 ชั่วโมงครึ่ง ชานมทุกวัน ออกกำลังกายสัปดาห์ละครั้ง ยังรู้สึกปกติดี" },
+  { at: 0, title: "จุดเริ่มต้นเดียวกัน", body: "นั่งทำงานทั้งวัน กินเค็ม เครียดงาน ดื่มสุดสัปดาห์ ความดันเริ่มสูงนิดหน่อย แต่ยังรู้สึกปกติดี" },
   {
     at: 1.5,
     title: "ผลที่สะสมอย่างเงียบ ๆ",
@@ -63,7 +67,7 @@ export function FutureJourney() {
 
   return (
     <section ref={root} aria-label="เดินทางสู่อนาคต" className="journey relative border-t border-hairline bg-bg">
-      <div className="journey-frame relative flex items-center overflow-hidden">
+      <div className="journey-frame relative isolate flex items-center overflow-hidden">
         <div className="grid-paper pointer-events-none absolute inset-0 -z-10 opacity-70" aria-hidden="true" />
         <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 py-14 md:grid-cols-[0.9fr_1.1fr] md:gap-12">
           <div>
@@ -86,7 +90,8 @@ export function FutureJourney() {
             >
               <Robot className="size-16 shadow-soft ring-4 ring-white sm:size-20" />
             </div>
-            <p className="text-sm text-muted">ตัวอย่าง: นักศึกษา 27 ปี</p>
+            <p className="text-sm font-semibold">ตัวอย่าง: {PERSON.label}</p>
+            <p className="mt-1 text-xs leading-relaxed text-muted">เส้นสีฟ้า: ถ้าปรับครบ {LEVERS.map((l) => l.label).join(" · ")}</p>
             <TrendChart current={sim.current} improved={sim.improved} progress={p} className="mt-3" />
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded-2xl bg-surface p-4">

@@ -21,6 +21,6 @@ STORY: Visitor sees two futures from one starting point, flips habits and watche
 
 FIRST VIEWPORT: Nav. Left: two-line Thai headline, second phrase underlined in blue, grey sub, blue pill CTA, note. Right: chart instrument on grid with year ruler, persona chips, habit toggles that redraw the blue line, robot with a live bubble.
 
-FORM: user-pinned PeelPlan world (concept roll skipped by pin). seed: none (unavailable)
+FORM: user-pinned PeelPlan world; concept-seed was not run because the user pinned the direction. seed: none (direction pinned by user, roll not run)
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
