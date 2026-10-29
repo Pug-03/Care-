@@ -83,12 +83,17 @@ export function AppNav() {
             key={href}
             href={href}
             aria-current={active(href) ? "page" : undefined}
-            className={`flex flex-col items-center gap-1 py-2.5 text-[11px] text-ink ${active(href) ? "font-bold" : "font-semibold"}`}
+            className="flex items-center justify-center px-1 py-1.5"
           >
-            <span className={`grid h-7 w-12 place-items-center rounded-full transition ${active(href) ? "bg-ink text-white" : ""}`}>
+            {/* The whole item fills when active: icon and label together. */}
+            <span
+              className={`flex w-full max-w-20 flex-col items-center gap-0.5 rounded-2xl py-1.5 text-[11px] transition ${
+                active(href) ? "bg-ink font-bold text-white" : "font-semibold text-ink"
+              }`}
+            >
               <Icon className="size-[18px]" strokeWidth={2.2} />
+              {short ?? label}
             </span>
-            {short ?? label}
           </Link>
         ))}
       </nav>
